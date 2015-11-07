@@ -38,12 +38,8 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/rake
     zgen oh-my-zsh plugins/rbenv
 
-#     # bulk load
-#     zgen loadall <<EOPLUGINS
-#         zsh-users/zsh-history-substring-search
-#         /path/to/local/plugin
-# EOPLUGINS
-#     # ^ can't indent this EOPLUGINS
+    # misc
+    zgen oh-my-zsh plugins/tmuxinator
 
     # completions
     zgen load zsh-users/zsh-completions src
