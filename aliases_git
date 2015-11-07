@@ -1,0 +1,10 @@
+#### Pure git aliases
+alias gac="git add --all && git commit -a"
+alias gacm="git add --all && git commit -am"
+alias gacS="git add --all && git commit -S -a"
+alias gsub-up="git submodule update --init --recursive"
+alias graze="git clean -df && git reset --hard HEAD"
+alias gpp="git pull && git push"
+alias gm-nff="git merge --no-ff"
+alias gco="git checkout"
+alias gs="git status"
