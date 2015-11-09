@@ -2,12 +2,12 @@
 ####### Set up zsh plugins and theme ################################
 #####################################################################
 
-ZGEN=/path/to/git/zgen/zgen.zsh
-ZSHRC_BASE=/path/to/git/zshrc
+ZGEN=/anaconda/personal-repos/zgen/zgen.zsh
+ZSHRC_BASE=/anaconda/personal-repos/zshrc
 
 
 # Set name of the theme to load.
-ZSH_THEME="steeef" #"sporty_256" #"kphoen" #"candy" #"agnoster" "steeef" #"candy" #"agnoster"
+ZSH_THEME="sporty_256" #"sporty_256" #"kphoen" #"candy" #"agnoster" "steeef" #"candy" #"agnoster"
 
 # load zgen
 source $ZGEN
@@ -19,7 +19,6 @@ if ! zgen saved; then
     zgen oh-my-zsh
 
     # General System
-    zgen oh-my-zsh plugins/archlinux
     zgen oh-my-zsh plugins/systemd
     zgen oh-my-zsh plugins/sudo
     zgen oh-my-zsh plugins/command-not-found

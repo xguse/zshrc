@@ -64,6 +64,15 @@ source $ZSHRC_BASE/aliases_git
 ####### My config stuff #############################################
 #####################################################################
 
+
+##### DOCKER stuff
+run_conda_container () {
+    docker run --name=$1 -d bioconda/bioconda-builder /bin/bash -c "while true; do echo Hello world; sleep 1; done"
+}
+
+
+
+
 # Set terminal color abilities
 if [ -e /usr/share/terminfo/x/xterm-256color ]; then
     export TERM='xterm-256color'
@@ -188,6 +197,13 @@ alias mBulldogN="sshfs ${BULLDOGN}:/ycga-ba/home/wd238 ${MOUNTPOINT_BULLDOGN}"
 alias uBulldogN="fusermount -u ${MOUNTPOINT_BULLDOGN}"
 
 
+### MOUNT all sshfs mount points
+alias mAll="mLouise; mLouiseFastscratch; mLouiseScratch2; mBulldogN"
+
+### UN-mount all sshfs mount points
+alias uAll="uLouise; uLouiseFastscratch; uLouiseScratch2; uBulldogN"
+
+
 #### Ping Google
 alias pinggoogle="ping -c 5 google.com"
 
@@ -228,7 +244,7 @@ function ipnbLOUISE(){
 
 alias condavate="source $HOME/anaconda2/bin/activate"
 alias decondavate="source $HOME/anaconda2/bin/activate none"
-decondavate
+# decondavate
 
 alias cstack2="condavate stack2"
 alias cstack3="condavate stack3"
@@ -240,13 +256,15 @@ outcode () {
     echo $!
 }
 
-# ## If no conda env is set: set it to the one below, otherwise do nothing.
-# if [[ ${CONDA_ENV_PATH} == '' ]]; then
-#     source $HOME/anaconda2/bin/activate stack2
-# else
-#     conda_env_name=(${(ps:/:)${CONDA_ENV_PATH}})
-#     source $HOME/anaconda2/bin/activate $conda_env_name[-1]
-# fi
+## If no conda env is set: set it to the one below, otherwise do nothing.
+if [[ ${CONDA_ENV_PATH} == '' ]]; then
+    source $HOME/anaconda2/bin/activate none
+else
+    # conda_env_name=(${(ps:/:)${CONDA_ENV_PATH}})
+    # source $HOME/anaconda2/bin/activate $conda_env_name[-1]
+    echo "Conda environment already set: ${CONDA_ENV_PATH}."
+
+fi
 
 
 

@@ -67,3 +67,11 @@ source $ZSHRC_BASE/aliases_git
 #####################################################################
 ####### My config stuff #############################################
 #####################################################################
+
+## If no conda env is set: set it to the one below, otherwise do nothing.
+if [[ ${CONDA_ENV_PATH} == '' ]]; then
+    source $HOME/anaconda2/bin/activate stack2
+else
+    conda_env_name=(${(ps:/:)${CONDA_ENV_PATH}})
+    source $HOME/anaconda2/bin/activate $conda_env_name[-1]
+fi
