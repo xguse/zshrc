@@ -51,6 +51,9 @@ if ! zgen saved; then
     zgen save
 fi
 
+
+ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc ${HOME}/.zshrc.local)
+
 #####################################################################
 ####### import common partials ######################################
 #####################################################################
@@ -66,11 +69,13 @@ source $ZSHRC_BASE/aliases_git
 
 
 ##### DOCKER stuff
-run_conda_container () {
-    docker run --name=$1 -d bioconda/bioconda-builder /bin/bash -c "while true; do echo Hello world; sleep 1; done"
+# run_conda_container () {
+#     docker run --name=$1 -d bioconda/bioconda-builder /bin/bash -c "while true; do echo Hello world; sleep 1; done"
+# }
+
+conda_builder_ssh () {
+    docker run --volume $SSH_AUTH_SOCK:/ssh-agent --env SSH_AUTH_SOCK=/ssh-agent $1 ssh-add -l
 }
-
-
 
 
 # Set terminal color abilities
