@@ -2,8 +2,8 @@
 ####### Set up zsh plugins and theme ################################
 #####################################################################
 
-ZGEN=/anaconda/personal-repos/zgen/zgen.zsh
-ZSHRC_BASE=/anaconda/personal-repos/zshrc
+ZGEN=/home/builder/anaconda/personal-repos/zgen/zgen.zsh
+ZSHRC_BASE=/home/builder/anaconda/personal-repos/zshrc
 
 
 # Set name of the theme to load.
