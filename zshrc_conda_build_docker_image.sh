@@ -85,7 +85,7 @@ alias decondavate="source $HOME/anaconda/bin/activate none"
 
 ## If no conda env is set: set it to the one below, otherwise do nothing.
 if [[ ${CONDA_ENV_PATH} == '' ]]; then
-    source $HOME/anaconda/bin/activate none
+    source $HOME/anaconda/bin/activate workshop
 else
     echo "Conda environment already set: ${CONDA_ENV_PATH}."
 fi
