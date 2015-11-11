@@ -69,9 +69,28 @@ source $ZSHRC_BASE/aliases_git
 ####### My config stuff #############################################
 #####################################################################
 
+# Set terminal color abilities
+if [ -e /usr/share/terminfo/x/xterm-256color ]; then
+    export TERM='xterm-256color'
+else
+    export TERM='xterm-color'
+fi
+
+
+alias condavate="source $HOME/anaconda/bin/activate"
+alias decondavate="source $HOME/anaconda/bin/activate none"
+
 ## If no conda env is set: set it to the one below, otherwise do nothing.
 if [[ ${CONDA_ENV_PATH} == '' ]]; then
     source $HOME/anaconda/bin/activate none
 else
     echo "Conda environment already set: ${CONDA_ENV_PATH}."
 fi
+
+
+
+# function to test output code of a command
+outcode () {
+    $1
+    echo $!
+}
