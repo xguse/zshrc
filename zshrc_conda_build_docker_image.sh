@@ -77,6 +77,9 @@ else
 fi
 
 
+###### CONDA STUFF ######
+
+
 alias condavate="source $HOME/anaconda/bin/activate"
 alias decondavate="source $HOME/anaconda/bin/activate none"
 
