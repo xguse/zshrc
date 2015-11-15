@@ -2,7 +2,7 @@ ZGEN=/home/gus/src/repos/git/zgen/zgen.zsh
 ZSHRC_BASE=/home/gus/src/repos/git/zshrc
 
 # Set name of the theme to load.
-ZSH_THEME="steeef" #"sporty_256" #"kphoen" #"candy" #"agnoster" "steeef" #"candy" #"agnoster"
+ZSH_THEME="ys" #"junkfood" #"steeef" #"sporty_256" #"kphoen" #"candy" #"agnoster" "steeef" #"candy" #"agnoster"
 
 
 # load zgen
@@ -221,11 +221,8 @@ alias ipnbSERVER="cd ${IPNB}; ipython jupyter --profile=server"
 alias Ipython="jupyter --matplotlib tk --gui=tk"
 
 # #### Anaconda stuff
-# alias conda2="$HOME/anaconda2/bin/conda"
-# alias conda3="$HOME/anaconda/bin/conda"
-
-alias condavate="source $HOME/anaconda2/bin/activate"
-alias decondavate="source $HOME/anaconda2/bin/activate none"
+alias condavate="source $HOME/.anaconda/bin/activate"
+alias decondavate="source $HOME/.anaconda/bin/activate none"
 # decondavate
 
 alias cstack2="condavate stack2"
@@ -240,7 +237,7 @@ outcode () {
 
 ## If no conda env is set: set it to the one below, otherwise do nothing.
 if [[ ${CONDA_ENV_PATH} == '' ]]; then
-    source $HOME/anaconda2/bin/activate none
+    source $HOME/.anaconda/bin/activate none
 else
     # conda_env_name=(${(ps:/:)${CONDA_ENV_PATH}})
     # source $HOME/anaconda2/bin/activate $conda_env_name[-1]
@@ -275,13 +272,6 @@ clean_pkg_cache () {
     sudo paccache -ruk0;
 }
 
-
-### TsetseCheckout Setup
-export TSETSECHECKOUT_SECRET='32d458c4-a174-4620-8647-fc7387ba8b7d'
-export TSETSECHECKOUT_ENV="dev"
-export TSETSECHECKOUT_M1="${HOME}/Dropbox/TSETSECHECKOUT_M1"
-export TSETSECHECKOUT_M2="${HOME}/Dropbox/TSETSECHECKOUT_M2"
-
 #### Java settings
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=setting'
 export _JAVA_OPTIONS='-Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
@@ -300,15 +290,6 @@ alias stowrelink="stowv -Rt"
 
 #### make calling xdg-open easier
 alias open="xdg-open"
-
-#### Set dircolors
-## Themes available
-solarized_256dark=$HOME/.dircolors-solarized/dircolors.256dark
-
-# ## Set the colors
-eval `dircolors ${solarized_256dark}`
-
-
 
 #### TMUX
 
