@@ -77,3 +77,50 @@ else
     conda_env_name=(${(ps:/:)${CONDA_ENV_PATH}})
     source $HOME/anaconda2/bin/activate $conda_env_name[-1]
 fi
+
+#### PBS stuff
+export QSCRIPTS="${HOME}/qsub_scripts"
+
+alias qme="qstat -u ${USER}"
+alias qI8="qsub -I -lnodes=1:ppn=8 -S $(which zsh)"
+alias qI16="qsub -I -lnodes=1:ppn=16 -S $(which zsh)"
+alias qI60="qsub -I -lnodes=1:ppn=60 -S $(which zsh)"
+
+### Set Up my LOCAL `modules` and `easybuild` to be used
+# adjust line below if you're using a shell other than bash, check with 'echo $SHELL'
+source $HOME/.local/environment-modules/Modules/3.2.10/init/zsh
+
+export EASYBUILD_INSTALLPATH=$HOME/.local/easybuild
+export EASYBUILD_ROBOT=$HOME/src/repos/git/easybuild-easyconfigs/easybuild/easyconfigs
+
+export MODULEPATH=$EASYBUILD_INSTALLPATH/modules/all:$HOME/.local/environment-modules/Modules/3.2.10/my_modulefiles
+export PATH=$HOME/.local/environment-modules/Modules/3.2.10/bin:$PATH
+export LD_LIBRARY_PATH=$HOME/.local/Tcl/lib:$LD_LIBRARY_PATH
+
+alias md="module"
+alias mdls="md list"
+alias mdld="md load"
+alias mdav="md av"
+alias mdsh="md show"
+
+
+#### Load various modules I always what to have
+# md load git/2.2.0.rc2
+md load git/2.3.4-goolf-1.4.10-no-OFED
+md load EasyBuild/2.0.0
+# md load zlib/1.2.8-goolf-1.4.10-no-OFED
+
+
+#### Anaconda stuff
+# de/activate conda env aliases
+alias condavate="source $HOME/.anaconda/bin/activate"
+alias decondavate="source $HOME/.anaconda/bin/activate none"
+decondavate
+
+
+alias cstack2="condavate stack2"
+alias cstack3="condavate stack3"
+
+
+#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
+[[ -s "/home/gus/.gvm/bin/gvm-init.sh" ]] && source "/home/gus/.gvm/bin/gvm-init.sh"
