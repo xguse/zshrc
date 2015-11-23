@@ -2,8 +2,8 @@
 ####### Set up zsh plugins and theme ################################
 #####################################################################
 
-ZGEN=/path/to/git/zgen/zgen.zsh
-ZSHRC_BASE=/path/to/git/zshrc
+ZGEN=/home2/wd238/src/repos/git/zgen/zgen.zsh
+ZSHRC_BASE=/home2/wd238/src/repos/git/zshrc
 
 
 # Set name of the theme to load.
