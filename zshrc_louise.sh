@@ -72,10 +72,10 @@ source $ZSHRC_BASE/aliases_git
 
 ## If no conda env is set: set it to the one below, otherwise do nothing.
 if [[ ${CONDA_ENV_PATH} == '' ]]; then
-    source $HOME/anaconda2/bin/activate stack2
+    source $HOME/.anaconda/bin/activate stack2
 else
     conda_env_name=(${(ps:/:)${CONDA_ENV_PATH}})
-    source $HOME/anaconda2/bin/activate $conda_env_name[-1]
+    source $HOME/.anaconda/bin/activate $conda_env_name[-1]
 fi
 
 #### PBS stuff
@@ -113,13 +113,13 @@ md load EasyBuild/2.0.0
 
 #### Anaconda stuff
 # de/activate conda env aliases
-alias condavate="source $HOME/.anaconda/bin/activate"
-alias decondavate="source $HOME/.anaconda/bin/activate none"
-decondavate
+# alias condavate="source $HOME/.anaconda/bin/activate"
+# alias decondavate="source $HOME/.anaconda/bin/activate none"
+# decondavate
 
 
-alias cstack2="condavate stack2"
-alias cstack3="condavate stack3"
+# alias cstack2="condavate stack2"
+# alias cstack3="condavate stack3"
 
 
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
