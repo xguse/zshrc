@@ -25,7 +25,7 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/sudo
     zgen oh-my-zsh plugins/command-not-found
     zgen load zsh-users/zsh-history-substring-search
-    zgen load zsh-users/zsh-syntax-highlighting
+    # zgen load zsh-users/zsh-syntax-highlighting
 
     # python
     zgen oh-my-zsh plugins/pip
