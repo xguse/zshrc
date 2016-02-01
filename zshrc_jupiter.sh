@@ -62,10 +62,32 @@ source $ZSHRC_BASE/aliases_universal
 source $ZSHRC_BASE/aliases_tmux
 source $ZSHRC_BASE/aliases_git
 
+source $ZSHRC_BASE/functions_universal
 
 #####################################################################
 ####### My config stuff #############################################
 #####################################################################
+
+##### proxy stuff
+
+bch_proxy (){
+  export http_proxy=http://proxy.tch.harvard.edu:3128/
+  export https_proxy=$http_proxy
+  export ftp_proxy=$http_proxy
+  export rsync_proxy=$http_proxy
+  export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
+}
+
+# start proxy by default.... for now.
+bch_proxy
+
+proxy_off(){
+  unset http_proxy
+  unset https_proxy
+  unset ftp_proxy
+  unset rsync_proxy
+  echo -e "Proxy environment variable removed."
+}
 
 
 ##### DOCKER stuff
@@ -152,7 +174,7 @@ alias locbin="ln -st ${HOME}/.local/bin"
 
 alias kp="killall pithos"
 
-alias mirror_up="sudo reflector --verbose --country 'United States' -l 200 -p http --sort rate --save /etc/pacman.d/mirrorlist"
+alias mirror_up="sudo -E reflector --verbose --country 'United States' -l 200 -p http --sort rate --save /etc/pacman.d/mirrorlist"
 
 alias mirror_up_antergos="sudo cp /etc/pacman.d/antergos-mirrorlist /etc/pacman.d/antergos-mirrorlist.bk && rankmirrors -n 6 /etc/pacman.d/antergos-mirrorlist.rank_these > /tmp/antergos-mirrorlist && sudo cp /tmp/antergos-mirrorlist /etc/pacman.d/antergos-mirrorlist  && less /tmp/antergos-mirrorlist"
 
@@ -287,7 +309,7 @@ pupdate () {
     conda_env=$CONDA_DEFAULT_ENV;
 
     decondavate ;
-    sudo etckeeper pre-install && sudo pacmatic -Syyu && sudo etckeeper post-install ;
+    sudo etckeeper pre-install && sudoE powerpill $1 && sudo etckeeper post-install ;
     condavate $conda_env;
 }
 
