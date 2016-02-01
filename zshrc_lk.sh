@@ -20,34 +20,34 @@ if ! zgen saved; then
     zgen oh-my-zsh
 
     # General System
-    # zgen oh-my-zsh plugins/archlinux
-    # zgen oh-my-zsh plugins/systemd
-    zgen oh-my-zsh plugins/sudo
-    zgen oh-my-zsh plugins/command-not-found
-    zgen load zsh-users/zsh-history-substring-search
-    # zgen load zsh-users/zsh-syntax-highlighting
+    # # zgen oh-my-zsh plugins/archlinux
+    # # zgen oh-my-zsh plugins/systemd
+    # zgen oh-my-zsh plugins/sudo
+    # zgen oh-my-zsh plugins/command-not-found
+    # zgen load zsh-users/zsh-history-substring-search
+    # # zgen load zsh-users/zsh-syntax-highlighting
+    #
+    # # python
+    # zgen oh-my-zsh plugins/pip
+    # zgen oh-my-zsh plugins/python
+    # # git
+    # zgen oh-my-zsh plugins/git
+    # zgen oh-my-zsh plugins/gitignore
+    # zgen oh-my-zsh plugins/git-extras
+    # zgen oh-my-zsh plugins/git-flow-avh
+    #
+    # # ruby
+    # zgen oh-my-zsh plugins/rvm
+    # zgen oh-my-zsh plugins/ruby
+    # zgen oh-my-zsh plugins/gem
+    # zgen oh-my-zsh plugins/rake
+    # zgen oh-my-zsh plugins/rbenv
+    #
+    # # misc
+    # zgen oh-my-zsh plugins/tmuxinator
 
-    # python
-    zgen oh-my-zsh plugins/pip
-    zgen oh-my-zsh plugins/python
-    # git
-    zgen oh-my-zsh plugins/git
-    zgen oh-my-zsh plugins/gitignore
-    zgen oh-my-zsh plugins/git-extras
-    zgen oh-my-zsh plugins/git-flow-avh
-
-    # ruby
-    zgen oh-my-zsh plugins/rvm
-    zgen oh-my-zsh plugins/ruby
-    zgen oh-my-zsh plugins/gem
-    zgen oh-my-zsh plugins/rake
-    zgen oh-my-zsh plugins/rbenv
-
-    # misc
-    zgen oh-my-zsh plugins/tmuxinator
-
-    # completions
-    zgen load zsh-users/zsh-completions src
+    # # completions
+    # zgen load zsh-users/zsh-completions src
 
     # theme
     zgen oh-my-zsh themes/$ZSH_THEME
