@@ -1,0 +1,6 @@
+
+# getting AUR repos with ease
+
+aur_clone () {
+    git clone https://aur.archlinux.org/${1}.git
+}
