@@ -5,6 +5,7 @@
 ZGEN=/home/lk55/.gus/zgen/zgen.zsh
 ZSHRC_BASE=/home/lk55/.gus/zshrc
 
+fpath=($ZSHRC_BASE/zsh_supplements/Functions/Misc $fpath)
 
 # Set name of the theme to load.
 ZSH_THEME="sporty_256" #"sporty_256" #"kphoen" #"candy" #"agnoster" "steeef" #"candy" #"agnoster"
