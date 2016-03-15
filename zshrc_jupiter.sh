@@ -63,6 +63,7 @@ source $ZSHRC_BASE/aliases_tmux
 source $ZSHRC_BASE/aliases_git
 
 source $ZSHRC_BASE/functions_universal
+source $ZSHRC_BASE/functions_git
 
 #####################################################################
 ####### My config stuff #############################################
@@ -97,6 +98,15 @@ proxy_off(){
 
 conda_builder_ssh () {
     docker run --volume $SSH_AUTH_SOCK:/ssh-agent --env SSH_AUTH_SOCK=/ssh-agent $1 ssh-add -l
+}
+
+bioconda-build-test () {
+    docker run  -it -e http_proxy=http://proxy.tch.harvard.edu:3128/ --rm -v `pwd`:/bioconda-recipes bioconda/bioconda-builder --packages $1
+}
+
+bioconda-build-shell () {
+    docker run --rm --entrypoint=/bin/bash -it -e http_proxy=http://proxy.tch.harvard.edu:3128/ --volumes-from bioconda-bld-volume -v /home/gus/src/repos/git/bioconda-recipes/recipes:/bioconda-recipes bioconda/bioconda-builder
+
 }
 
 

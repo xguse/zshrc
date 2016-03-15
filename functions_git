@@ -1,0 +1,8 @@
+
+# fetch and merge upstream into local master
+
+sync_with_upstream () {
+    git fetch upstream
+    git checkout master
+    git merge upstream/master
+}

@@ -98,6 +98,7 @@ source $ZSHRC_BASE/aliases_universal
 source $ZSHRC_BASE/aliases_tmux
 source $ZSHRC_BASE/aliases_git
 
+source $ZSHRC_BASE/functions_git
 
 #####################################################################
 ####### My config stuff #############################################
