@@ -92,6 +92,7 @@ export GITREPOS="${HOME}/src/repos/git"
 export BSCRIPTS="${HOME}/bsub_scripts"
 
 alias qme="qstat -u ${USER}"
+alias qI="bsub -Is -q interactive zsh"
 alias qI8="qsub -I -lnodes=1:ppn=8 -S $(which zsh)"
 alias qI16="qsub -I -lnodes=1:ppn=16 -S $(which zsh)"
 alias qI60="qsub -I -lnodes=1:ppn=60 -S $(which zsh)"
