@@ -279,12 +279,10 @@ function ipnbLOUISE(){
 # alias conda2="$HOME/anaconda2/bin/conda"
 # alias conda3="$HOME/anaconda/bin/conda"
 
-alias condavate="source $HOME/anaconda2/bin/activate"
-alias decondavate="source $HOME/anaconda2/bin/activate none"
-# decondavate
+alias condavate="source $HOME/.anaconda/bin/activate"
+alias decondavate="source $HOME/.anaconda/bin/activate none"
 
 alias cstack2="condavate stack2"
-alias cstack3="condavate stack3"
 
 
 # function to test output code of a command
@@ -295,21 +293,13 @@ outcode () {
 
 ## If no conda env is set: set it to the one below, otherwise do nothing.
 if [[ ${CONDA_ENV_PATH} == '' ]]; then
-    source $HOME/anaconda2/bin/activate none
+    source $HOME/.anaconda/bin/activate none
 else
     # conda_env_name=(${(ps:/:)${CONDA_ENV_PATH}})
-    # source $HOME/anaconda2/bin/activate $conda_env_name[-1]
+    # source $HOME/.anaconda/bin/activate $conda_env_name[-1]
     echo "Conda environment already set: ${CONDA_ENV_PATH}."
 
 fi
-
-
-
-#### AUR build stuff
-
-clone_aur () {
-    git clone https://aur.archlinux.org/$1.git
-}
 
 
 #### etckeeper
