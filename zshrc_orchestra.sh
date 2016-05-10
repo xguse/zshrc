@@ -83,7 +83,8 @@ source $ZSHRC_BASE/functions_git
 #####################################################################
 
 
-
+#### Pure git stuff
+export GITREPOS="${HOME}/src/repos/git"
 
 
 
