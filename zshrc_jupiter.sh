@@ -207,6 +207,16 @@ alias zulu_stamp="date -u +'%Y-%m-%dT%H.%M.%SZ'"
 alias time_stamp="date +'%Y-%m-%dT%H.%M.%S'"
 
 
+#### Harvard ssh shortcuts
+### ORCHESTRA stuff
+ORCHESTRA=wad4@orchestra.med.harvard.edu
+MOUNTPOINT_ORCHESTRA="${HOME}/remote_mounts/orchestra"
+
+alias sshOrchestra="ssh ${ORCHESTRA}"
+alias sshXOrchestra="ssh -X ${ORCHESTRA}"
+alias mOrchestra="sshfs ${ORCHESTRA}:/home2/wd238 ${MOUNTPOINT_ORCHESTRA}"
+alias uOrchestra="fusermount -u ${MOUNTPOINT_ORCHESTRA}"
+
 #### Yale ssh shortcuts
 
 ### LOUISE stuff
