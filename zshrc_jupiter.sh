@@ -214,7 +214,7 @@ MOUNTPOINT_ORCHESTRA="${HOME}/remote_mounts/orchestra"
 
 alias sshOrchestra="ssh ${ORCHESTRA}"
 alias sshXOrchestra="ssh -X ${ORCHESTRA}"
-alias mOrchestra="sshfs ${ORCHESTRA}:/home2/wd238 ${MOUNTPOINT_ORCHESTRA}"
+alias mOrchestra="sshfs ${ORCHESTRA}:/home/wad4 ${MOUNTPOINT_ORCHESTRA}"
 alias uOrchestra="fusermount -u ${MOUNTPOINT_ORCHESTRA}"
 
 #### Yale ssh shortcuts
