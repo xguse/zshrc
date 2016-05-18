@@ -11,3 +11,7 @@ alias l='ls -CFh'
 
 alias grep='grep --color'
 alias ls='ls --color=auto'
+
+# conda environment switching
+alias cenv="source activate"
+alias uncenv="source activate none"

@@ -91,6 +91,19 @@ proxy_off(){
 }
 
 
+#### Anaconda stuff
+alias cstack2="cenv stack2"
+
+## If no conda env is set: set it to the one below, otherwise do nothing.
+if [[ ${CONDA_ENV_PATH} == '' ]]; then
+    source $HOME/.anaconda/bin/activate none
+else
+    # conda_env_name=(${(ps:/:)${CONDA_ENV_PATH}})
+    # source $HOME/.anaconda/bin/activate $conda_env_name[-1]
+    echo "Conda environment already set: ${CONDA_ENV_PATH}."
+
+fi
+
 ##### DOCKER stuff
 # run_conda_container () {
 #     docker run --name=$1 -d bioconda/bioconda-builder /bin/bash -c "while true; do echo Hello world; sleep 1; done"
@@ -285,32 +298,6 @@ function ipnbLOUISE(){
     ssh -f -N -L 9999:$1:9999 wd238@louise.hpc.yale.edu
 }
 
-# #### Anaconda stuff
-# alias conda2="$HOME/anaconda2/bin/conda"
-# alias conda3="$HOME/anaconda/bin/conda"
-
-alias condavate="source $HOME/.anaconda/bin/activate"
-alias decondavate="source $HOME/.anaconda/bin/activate none"
-
-alias cstack2="condavate stack2"
-
-
-# function to test output code of a command
-outcode () {
-    $1
-    echo $!
-}
-
-## If no conda env is set: set it to the one below, otherwise do nothing.
-if [[ ${CONDA_ENV_PATH} == '' ]]; then
-    source $HOME/.anaconda/bin/activate none
-else
-    # conda_env_name=(${(ps:/:)${CONDA_ENV_PATH}})
-    # source $HOME/.anaconda/bin/activate $conda_env_name[-1]
-    echo "Conda environment already set: ${CONDA_ENV_PATH}."
-
-fi
-
 
 #### etckeeper
 
@@ -318,9 +305,9 @@ pupdate () {
 
     conda_env=$CONDA_DEFAULT_ENV;
 
-    decondavate ;
+    uncenv ;
     sudo etckeeper pre-install && sudoE powerpill $1 && sudo etckeeper post-install ;
-    condavate $conda_env;
+    cenv $conda_env;
 }
 
 

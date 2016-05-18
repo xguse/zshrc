@@ -8,3 +8,10 @@ aur_clone () {
 add_ipy_kernel () {
     python -m ipykernel install --user --name $1 --display-name "Python ($1)"
 }
+
+
+# function to test output code of a command
+outcode () {
+    $1
+    echo $!
+}
