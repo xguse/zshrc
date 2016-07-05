@@ -62,11 +62,47 @@ source $ZSHRC_BASE/aliases_universal
 source $ZSHRC_BASE/aliases_tmux
 source $ZSHRC_BASE/aliases_git
 
+source $ZSHRC_BASE/functions_universal
+source $ZSHRC_BASE/functions_git
 
 #####################################################################
 ####### My config stuff #############################################
 #####################################################################
 
+##### proxy stuff
+
+bch_proxy (){
+  export http_proxy=http://proxy.tch.harvard.edu:3128/
+  export https_proxy=$http_proxy
+  export ftp_proxy=$http_proxy
+  export rsync_proxy=$http_proxy
+  export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
+}
+
+# start proxy by default.... for now.
+bch_proxy
+
+proxy_off(){
+  unset http_proxy
+  unset https_proxy
+  unset ftp_proxy
+  unset rsync_proxy
+  echo -e "Proxy environment variable removed."
+}
+
+
+#### Anaconda stuff
+alias cstack2="cenv stack2"
+
+## If no conda env is set: set it to the one below, otherwise do nothing.
+if [[ ${CONDA_ENV_PATH} == '' ]]; then
+    source $HOME/.anaconda/bin/activate none
+else
+    # conda_env_name=(${(ps:/:)${CONDA_ENV_PATH}})
+    # source $HOME/.anaconda/bin/activate $conda_env_name[-1]
+    echo "Conda environment already set: ${CONDA_ENV_PATH}."
+
+fi
 
 ##### DOCKER stuff
 # run_conda_container () {
@@ -75,6 +111,15 @@ source $ZSHRC_BASE/aliases_git
 
 conda_builder_ssh () {
     docker run --volume $SSH_AUTH_SOCK:/ssh-agent --env SSH_AUTH_SOCK=/ssh-agent $1 ssh-add -l
+}
+
+bioconda-build-test () {
+    docker run  -it -e http_proxy=http://proxy.tch.harvard.edu:3128/ --rm -v `pwd`:/bioconda-recipes bioconda/bioconda-builder --packages $1
+}
+
+bioconda-build-shell () {
+    docker run --rm --entrypoint=/bin/bash -it -e http_proxy=http://proxy.tch.harvard.edu:3128/ --volumes-from bioconda-bld-volume -v /home/gus/src/repos/git/bioconda-recipes/recipes:/bioconda-recipes bioconda/bioconda-builder
+
 }
 
 
@@ -152,7 +197,7 @@ alias locbin="ln -st ${HOME}/.local/bin"
 
 alias kp="killall pithos"
 
-alias mirror_up="sudo reflector --verbose --country 'United States' -l 200 -p http --sort rate --save /etc/pacman.d/mirrorlist"
+alias mirror_up="sudo -E reflector --verbose --country 'United States' -l 200 -p http --sort rate --save /etc/pacman.d/mirrorlist"
 
 alias mirror_up_antergos="sudo cp /etc/pacman.d/antergos-mirrorlist /etc/pacman.d/antergos-mirrorlist.bk && rankmirrors -n 6 /etc/pacman.d/antergos-mirrorlist.rank_these > /tmp/antergos-mirrorlist && sudo cp /tmp/antergos-mirrorlist /etc/pacman.d/antergos-mirrorlist  && less /tmp/antergos-mirrorlist"
 
@@ -174,6 +219,16 @@ alias zulu_time="date -u +'%Y-%m-%dT%H:%M:%SZ'"
 alias zulu_stamp="date -u +'%Y-%m-%dT%H.%M.%SZ'"
 alias time_stamp="date +'%Y-%m-%dT%H.%M.%S'"
 
+
+#### Harvard ssh shortcuts
+### ORCHESTRA stuff
+ORCHESTRA=wad4@orchestra.med.harvard.edu
+MOUNTPOINT_ORCHESTRA="${HOME}/remote_mounts/orchestra"
+
+alias sshOrchestra="ssh ${ORCHESTRA}"
+alias sshXOrchestra="ssh -X ${ORCHESTRA}"
+alias mOrchestra="sshfs ${ORCHESTRA}:/home/wad4 ${MOUNTPOINT_ORCHESTRA}"
+alias uOrchestra="fusermount -u ${MOUNTPOINT_ORCHESTRA}"
 
 #### Yale ssh shortcuts
 
@@ -243,42 +298,6 @@ function ipnbLOUISE(){
     ssh -f -N -L 9999:$1:9999 wd238@louise.hpc.yale.edu
 }
 
-# #### Anaconda stuff
-# alias conda2="$HOME/anaconda2/bin/conda"
-# alias conda3="$HOME/anaconda/bin/conda"
-
-alias condavate="source $HOME/anaconda2/bin/activate"
-alias decondavate="source $HOME/anaconda2/bin/activate none"
-# decondavate
-
-alias cstack2="condavate stack2"
-alias cstack3="condavate stack3"
-
-
-# function to test output code of a command
-outcode () {
-    $1
-    echo $!
-}
-
-## If no conda env is set: set it to the one below, otherwise do nothing.
-if [[ ${CONDA_ENV_PATH} == '' ]]; then
-    source $HOME/anaconda2/bin/activate none
-else
-    # conda_env_name=(${(ps:/:)${CONDA_ENV_PATH}})
-    # source $HOME/anaconda2/bin/activate $conda_env_name[-1]
-    echo "Conda environment already set: ${CONDA_ENV_PATH}."
-
-fi
-
-
-
-#### AUR build stuff
-
-clone_aur () {
-    git clone https://aur.archlinux.org/$1.git
-}
-
 
 #### etckeeper
 
@@ -286,9 +305,9 @@ pupdate () {
 
     conda_env=$CONDA_DEFAULT_ENV;
 
-    decondavate ;
-    sudo etckeeper pre-install && sudo pacmatic -Syyu && sudo etckeeper post-install ;
-    condavate $conda_env;
+    uncenv ;
+    sudo etckeeper pre-install && sudoE powerpill $1 && sudo etckeeper post-install ;
+    cenv $conda_env;
 }
 
 
