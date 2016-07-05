@@ -89,6 +89,7 @@ if ! zgen saved; then
 fi
 
 # ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc ${HOME}/.zshrc.local)
+ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc)
 
 #####################################################################
 ####### import common partials ######################################
