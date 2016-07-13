@@ -18,13 +18,17 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/archlinux
     zgen oh-my-zsh plugins/systemd
     zgen oh-my-zsh plugins/sudo
-    zgen oh-my-zsh plugins/command-not-found
+    # zgen oh-my-zsh plugins/command-not-found
     zgen load zsh-users/zsh-history-substring-search
     zgen load zsh-users/zsh-syntax-highlighting
+
+    # Docker
+
 
     # python
     zgen oh-my-zsh plugins/pip
     zgen oh-my-zsh plugins/python
+
     # git
     zgen oh-my-zsh plugins/git
     zgen oh-my-zsh plugins/gitignore
@@ -52,7 +56,7 @@ if ! zgen saved; then
 fi
 
 
-ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc ${HOME}/.zshrc.local)
+ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc)
 
 #####################################################################
 ####### import common partials ######################################
@@ -104,6 +108,13 @@ else
 
 fi
 
+jupyter-add-conda-env (){
+    old_env=$CONDA_DEFAULT_ENV
+    cenv $1
+    python -m ipykernel install --user --name $1 --display-name "$2"
+    cenv $old_env
+}
+
 ##### DOCKER stuff
 # run_conda_container () {
 #     docker run --name=$1 -d bioconda/bioconda-builder /bin/bash -c "while true; do echo Hello world; sleep 1; done"
@@ -117,9 +128,20 @@ bioconda-build-test () {
     docker run  -it -e http_proxy=http://proxy.tch.harvard.edu:3128/ --rm -v `pwd`:/bioconda-recipes bioconda/bioconda-builder --packages $1
 }
 
-bioconda-build-shell () {
-    docker run --rm --entrypoint=/bin/bash -it -e http_proxy=http://proxy.tch.harvard.edu:3128/ --volumes-from bioconda-bld-volume -v /home/gus/src/repos/git/bioconda-recipes/recipes:/bioconda-recipes bioconda/bioconda-builder
+bioconda-bld-volume-create () {
+    docker create --entrypoint=/bin/bash \
+        -e http_proxy=http://proxy.tch.harvard.edu:3128/ \
+        -v /anaconda/conda-bld \
+        --name bioconda-bld-volume bioconda/bioconda-builder /bin/true
+}
 
+bioconda-build-shell () {
+    docker run --rm --entrypoint=/bin/bash -it -e http_proxy=http://proxy.tch.harvard.edu:3128/ \
+        -v  /home/gus/src/repos/git/bioconda-recipes/recipes:/bioconda-recipes \
+        -v  /home/gus/src/repos/git:/gits \
+        -v  /home/gus/.bioconda_docker_bin:/usr/local/bin \
+        -w  / \
+        bioconda/bioconda-builder
 }
 
 
@@ -171,6 +193,8 @@ export PROJECTSTUFF=/home/gus/Documents/YalePostDoc/project_stuff
 export SUBLIMEUSER=/home/gus/.config/sublime-text-3/Packages/User
 export LINSTALLS=$HOME/.local
 
+### Specific commonly used data locations
+export HUMAN_G1K_V37_FAS="/run/media/gus/Storage/BCH/data/g1k/reference_genome/human_g1k_v37.fasta"
 
 #### CUPS stopped playing nice without me setting this here
 # export CUPS_SERVER=localhost:631/version=1.1
@@ -313,7 +337,7 @@ pupdate () {
 
 clean_pkg_cache () {
 
-    sudo paccache -r;
+    sudo paccache -rk1;
     sudo paccache -ruk0;
 }
 
