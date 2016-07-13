@@ -56,6 +56,7 @@ if ! zgen saved; then
 fi
 
 
+# ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc ${HOME}/.zshrc.local)
 ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc)
 
 #####################################################################
@@ -126,13 +127,6 @@ conda_builder_ssh () {
 
 bioconda-build-test () {
     docker run  -it -e http_proxy=http://proxy.tch.harvard.edu:3128/ --rm -v `pwd`:/bioconda-recipes bioconda/bioconda-builder --packages $1
-}
-
-bioconda-bld-volume-create () {
-    docker create --entrypoint=/bin/bash \
-        -e http_proxy=http://proxy.tch.harvard.edu:3128/ \
-        -v /anaconda/conda-bld \
-        --name bioconda-bld-volume bioconda/bioconda-builder /bin/true
 }
 
 bioconda-build-shell () {

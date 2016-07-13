@@ -18,7 +18,7 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/archlinux
     zgen oh-my-zsh plugins/systemd
     zgen oh-my-zsh plugins/sudo
-    zgen oh-my-zsh plugins/command-not-found
+    # zgen oh-my-zsh plugins/command-not-found
     zgen load zsh-users/zsh-history-substring-search
     zgen load zsh-users/zsh-syntax-highlighting
 
@@ -52,7 +52,7 @@ if ! zgen saved; then
 fi
 
 
-ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc ${HOME}/.zshrc.local)
+ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc)
 
 #####################################################################
 ####### import common partials ######################################
@@ -240,8 +240,8 @@ alias ipnbSERVER="cd ${IPNB}; ipython jupyter --profile=server"
 alias Ipython="jupyter --matplotlib tk --gui=tk"
 
 # #### Anaconda stuff
-alias condavate="source $HOME/.anaconda/bin/activate"
-alias decondavate="source $HOME/.anaconda/bin/activate none"
+alias cenv="source $HOME/.anaconda/bin/activate"
+alias uncenv="source $HOME/.anaconda/bin/activate none"
 # decondavate
 
 alias cstack2="condavate stack2"
