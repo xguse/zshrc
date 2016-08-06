@@ -116,6 +116,10 @@ jupyter-add-conda-env (){
     cenv $old_env
 }
 
+jupyter-slides () {
+    jupyter nbconvert $1 --to slides --post serve --reveal-prefix "http://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.3.0"
+}
+
 ##### DOCKER stuff
 # run_conda_container () {
 #     docker run --name=$1 -d bioconda/bioconda-builder /bin/bash -c "while true; do echo Hello world; sleep 1; done"
