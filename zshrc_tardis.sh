@@ -58,12 +58,12 @@ ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc)
 ####### import common partials ######################################
 #####################################################################
 
-source $ZSHRC_BASE/aliases_universal
-source $ZSHRC_BASE/aliases_tmux
-source $ZSHRC_BASE/aliases_git
+source $ZSHRC_BASE/aliases_universal.sh
+source $ZSHRC_BASE/aliases_tmux.sh
+source $ZSHRC_BASE/aliases_git.sh
 
-source $ZSHRC_BASE/functions_universal
-source $ZSHRC_BASE/functions_git
+source $ZSHRC_BASE/functions_universal.sh
+source $ZSHRC_BASE/functions_git.sh
 
 #####################################################################
 ####### My config stuff #############################################
