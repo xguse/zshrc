@@ -74,9 +74,13 @@ source $ZSHRC_BASE/functions_git.sh
 ####### My config stuff #############################################
 #####################################################################
 
-#### fzf
-source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh
+# #### fzf
+# source /usr/share/fzf/key-bindings.zsh
+# source /usr/share/fzf/completion.zsh
+
+
+#### Eve on Wine
+alias eve='WINEARCH=win32 WINEPREFIX=~/Wine/eve32 wine ~/Wine/eve32/dosdevices/c:/EVE/Launcher/evelauncher.exe'
 
 
 
@@ -118,9 +122,9 @@ fi
 
 jupyter-add-conda-env (){
     old_env=$CONDA_DEFAULT_ENV
-    cenv $1
+    chenv $1
     python -m ipykernel install --user --name $1 --display-name "$2"
-    cenv $old_env
+    chenv $old_env
 }
 
 jupyter-slides () {
@@ -200,10 +204,11 @@ export LINSTALLS=$HOME/.local
 
 ### Specific commonly used data locations
 export HUMAN_G1K_V37_FAS="/run/media/gus/Storage/BCH/data/g1k/reference_genome/human_g1k_v37.fasta"
-export GMMGFF=$GITREPOS/pipeline-repos/gmm-to-gff-transcripts-vs-snps
-export MRICORE=$GITREPOS/pipeline-repos/IBD-MRI_pipelines/IBD-MRI_core
-export IBDPORT=$GITREPOS/pipeline-repos/prep-data-for-ibd-portal
-export VEOIBD=$GITREPOS/pipeline-repos/veoibd_misc
+export GMMGFF=$GITREPOS/project-repos/gmm-to-gff-transcripts-vs-snps
+export MRICORE=$GITREPOS/project-repos/IBD-MRI_core
+export IBDPORT=$GITREPOS/project-repos/prep-data-for-ibd-portal
+export VEOIBD=$GITREPOS/project-repos/veoibd_misc
+export VEOIBD_SYNAPSE=$GITREPOS/project-repos/veoibd-synapse-data-manager
 
 #### CUPS stopped playing nice without me setting this here
 # export CUPS_SERVER=localhost:631/version=1.1
@@ -342,10 +347,10 @@ pupdate () {
 
     conda_env=$CONDA_DEFAULT_ENV;
 
-    uncenv ;
+    chenv_ ;
     # sudo etckeeper pre-install && sudoE powerpill $1 && sudo etckeeper post-install ;
     sudoE powerpill $1 ;
-    cenv $conda_env ;
+    chenv $conda_env ;
 }
 
 
