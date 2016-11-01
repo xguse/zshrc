@@ -240,8 +240,8 @@ alias ipnbSERVER="cd ${IPNB}; ipython jupyter --profile=server"
 alias Ipython="jupyter --matplotlib tk --gui=tk"
 
 # #### Anaconda stuff
-alias cenv="source $HOME/.anaconda/bin/activate"
-alias uncenv="source $HOME/.anaconda/bin/activate none"
+alias chenv="source $HOME/.anaconda/bin/activate"
+alias chenv_="source $HOME/.anaconda/bin/activate none"
 # decondavate
 
 alias cstack2="condavate stack2"
