@@ -13,8 +13,8 @@ alias grep='grep --color'
 alias ls='ls --color=auto'
 
 # conda environment switching
-alias chenv="source activate"
-alias chenv_="source activate none"
+alias chenv="source $ANACONDA/bin/activate"
+alias chenv_="source $ANACONDA/bin/activate none"
 
 # focus music
 alias lnoise="mpv http://stream.spc.org:8008/longplayer"

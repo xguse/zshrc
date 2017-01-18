@@ -6,7 +6,7 @@ aur_clone () {
 
 # jupyter stuff
 add_ipy_kernel () {
-    python -m ipykernel install --user --name $1 --display-name "Python ($1)"
+    python -m ipykernel install --user --name $1 --display-name "$1"
 }
 
 

@@ -1,3 +1,7 @@
+# Set anaconda install location
+ANACONDA=$HOME/.anaconda
+
+# Begin ZGEN config
 ZGEN=/home/gus/src/repos/git/zgen/zgen.zsh
 ZSHRC_BASE=/home/gus/src/repos/git/zshrc
 
@@ -54,7 +58,7 @@ if ! zgen saved; then
     # save all to init script
     zgen save
 fi
-
+    
 
 # ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc ${HOME}/.zshrc.local)
 ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc)
@@ -112,7 +116,7 @@ zstyle ':completion::complete:*' use-cache 1
 
 ## If no conda env is set: set it to the one below, otherwise do nothing.
 if [[ ${CONDA_ENV_PATH} == '' ]]; then
-    source $HOME/.anaconda/bin/activate none
+    chenv none
 else
     # conda_env_name=(${(ps:/:)${CONDA_ENV_PATH}})
     # source $HOME/.anaconda/bin/activate $conda_env_name[-1]
@@ -167,7 +171,7 @@ fi
 # export PATH="${PATH}:${HOME}/bin:${HOME}/.local/bin:${HOME}/.cabal/bin:${HOME}/.linuxbrew/bin:/usr/local/bin"
 
 # For when I need to call MY versions of things no matter what
-export PATH="${HOME}/bin:${HOME}/.local/bin:${HOME}/.luarocks/bin:${HOME}/.local/lmod/lmod/5.9.3/libexec:${HOME}/.cabal/bin:${PATH}:/usr/local/bin:/home/gus/.gem/ruby/2.2.0/bin"
+export PATH="${HOME}/bin:${HOME}/.local/bin:${HOME}/.luarocks/bin:${HOME}/.local/lmod/lmod/5.9.3/libexec:${HOME}/.cabal/bin:${PATH}:/usr/local/bin:/home/gus/.gem/ruby/2.4.0/bin"
 
 
 # You may need to manually set your language environment
@@ -180,9 +184,14 @@ else
   export EDITOR='atom'
 fi
 
+# alias atom=atom-beta
 alias edit=$EDITOR
 
 export VISUAL=atom
+
+# emacs aliases
+alias emc="emacsclient -c"
+alias emt="emacsclient -t"
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -193,7 +202,7 @@ export VISUAL=atom
 export PATH="${PATH}:${HOME}/.rvm/bin" # Add RVM to PATH for scripting
 
 
-eval $(thefuck --alias)
+# eval $(thefuck --alias)
 
 
 #### Common filesystem specific locations
@@ -204,11 +213,12 @@ export LINSTALLS=$HOME/.local
 
 ### Specific commonly used data locations
 export HUMAN_G1K_V37_FAS="/run/media/gus/Storage/BCH/data/g1k/reference_genome/human_g1k_v37.fasta"
-export GMMGFF=$GITREPOS/project-repos/gmm-to-gff-transcripts-vs-snps
-export MRICORE=$GITREPOS/project-repos/IBD-MRI_core
-export IBDPORT=$GITREPOS/project-repos/prep-data-for-ibd-portal
-export VEOIBD=$GITREPOS/project-repos/veoibd_misc
-export VEOIBD_SYNAPSE=$GITREPOS/project-repos/veoibd-synapse-data-manager
+export PROJREPOS=$GITREPOS/project-repos/
+export GMMGFF=$PROJREPOS/gmm-to-gff-transcripts-vs-snps
+export MRICORE=$PROJREPOS/IBD-MRI_core
+export IBDPORT=$PROJREPOS/prep-data-for-ibd-portal
+export VEOIBD=$PROJREPOS/veoibd_misc
+export VEOIBD_SYNAPSE=$PROJREPOS/veoibd-synapse-data-manager
 
 #### CUPS stopped playing nice without me setting this here
 # export CUPS_SERVER=localhost:631/version=1.1
@@ -226,7 +236,20 @@ susnow () {
     org.freedesktop.login1.Manager.Suspend boolean:true
 }
 
+
+
+#### Jrnl stuff
+
+alias jw="jrnl work &"
+
+function jwt () {
+    jw < ~/Dropbox/jrnl/jrnl_work_tmpl.jnrl
+    jw -1 --edit
+}
+
+
 #### Random alias stuff
+
 alias dp="sudo -u dummyplug"
 
 alias rb="systemctl reboot -i"

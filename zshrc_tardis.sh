@@ -320,8 +320,6 @@ alias muxmain="mux start main"
 alias tctrl="tracker-control"
 alias tterm="tracker-control -t"
 
-
-
 # #### Wine set up variables
 # export WINEPREFIX=$HOME/.config/wine32/
 # export WINEARCH=win32
