@@ -15,3 +15,9 @@ outcode () {
     $1
     echo $!
 }
+
+
+# BCH VPN
+vpn-bch () {
+  sudo openconnect --juniper -C "DSID=${1}" https://vpn.childrens.harvard.edu
+}
