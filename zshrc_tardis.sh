@@ -176,6 +176,15 @@ journal_since_no_avahi () {
 alias DATE="date -I"
 
 
+#### Harvard ssh shortcuts
+### ORCHESTRA stuff
+ORCHESTRA=wad4@orchestra.med.harvard.edu
+MOUNTPOINT_ORCHESTRA="${HOME}/remote_mounts/orchestra"
+alias sshOrchestra="ssh ${ORCHESTRA}"
+alias mOrchestra="sshfs ${ORCHESTRA}:/home/wd238 ${MOUNTPOINT_ORCHESTRA}"
+alias uOrchestra="fusermount -u ${MOUNTPOINT_ORCHESTRA}"
+
+
 #### Yale ssh shortcuts
 
 ### LOUISE stuff

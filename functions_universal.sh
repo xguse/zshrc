@@ -47,3 +47,8 @@ mkproject () {
 mkprojectdatascience () {
     mkproject $GITREPOS/cookiecutters/cookiecutter-data-science
 }
+
+# BCH VPN
+vpn-bch () {
+  sudo openconnect --juniper -C "DSID=${1}" https://vpn.childrens.harvard.edu
+}
