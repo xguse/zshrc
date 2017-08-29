@@ -1,6 +1,6 @@
 # editing zshrc
 alias zedit="edit ~/.zshrc.sh"
-alias zourse="source ~/.zshrc"
+alias zource="source ~/.zshrc"
 
 ## aliases go here
 alias ls="ls --color=auto -h"
@@ -10,7 +10,9 @@ alias la='ls -Ah'
 alias l='ls -CFh'
 
 alias grep='grep --color'
-alias ls='ls --color=auto'
+alias rg='rg --color'
+
+alias ka='killall'
 
 # conda environment switching
 alias chenv="source $ANACONDA/bin/activate"
