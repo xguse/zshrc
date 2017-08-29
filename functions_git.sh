@@ -13,7 +13,6 @@ github-create () {
 
     dir_name=$(basename $(pwd))
 
-    CURL=$(which curl)
 
     [ -d ".git" ] && INIT_GIT="y" || INIT_GIT="n"
 
@@ -47,6 +46,7 @@ github-create () {
         invalid_credentials=1
     fi
 
+
     if [[ $invalid_credentials == "1" ]]; then
         return 1
     fi
@@ -59,13 +59,27 @@ github-create () {
     fi
 
 
+    org=""
+    if [ "$org" = "" ]; then
+        echo "[git-create][info]: Creating Github repository '$repo_name' ..."
+        curl -u "$username:$token" https://api.github.com/user/repos -d '{"name":"'$repo_name'"}' # > /dev/null 2>&1
+        echo "[git-create][info]:  done."
 
-    echo "[git-create][info]: Creating Github repository '$repo_name' ..."
-    curl -u "$username:$token" https://api.github.com/user/repos -d '{"name":"'$repo_name'"}' # > /dev/null 2>&1
-    echo "[git-create][info]:  done."
+        echo "[git-create][info]: Pushing local code to remote ..."
+        git remote add origin git@github.com:$username/$repo_name.git # > /dev/null 2>&1
+        git push -u origin master # > /dev/null 2>&1
+        echo "[git-create][info]:  done."
+    else
+        echo "[git-create][info]: Creating Github repository '$repo_name' ..."
+        curl -u "$username:$token" https://api.github.com/orgs/$org/repos -d '{"name":"'$repo_name'"}' # > /dev/null 2>&1
+        echo "[git-create][info]:  done."
 
-    echo "[git-create][info]: Pushing local code to remote ..."
-    git remote add origin git@github.com:$username/$repo_name.git # > /dev/null 2>&1
-    git push -u origin master # > /dev/null 2>&1
-    echo "[git-create][info]:  done."
+        echo "[git-create][info]: Pushing local code to remote ..."
+        git remote add origin git@github.com:$org/$repo_name.git # > /dev/null 2>&1
+        git push -u origin master # > /dev/null 2>&1
+        echo "[git-create][info]:  done."
+    fi
+
+
+
 }

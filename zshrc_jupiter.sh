@@ -53,12 +53,13 @@ if ! zgen saved; then
     zgen load zsh-users/zsh-completions src
 
     # theme
+    # zgen load denysdovhan/spaceship-zsh-theme spaceship
     zgen oh-my-zsh themes/$ZSH_THEME
 
     # save all to init script
     zgen save
 fi
-    
+
 
 # ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc ${HOME}/.zshrc.local)
 ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc)
@@ -91,7 +92,7 @@ alias eve='WINEARCH=win32 WINEPREFIX=~/Wine/eve32 wine ~/Wine/eve32/dosdevices/c
 ##### proxy stuff
 
 bch_proxy (){
-  export http_proxy=http://proxy.tch.harvard.edu:3128/
+  export http_proxy=http://proxy.tch.harvard.edu:3128
   export https_proxy=$http_proxy
   export ftp_proxy=$http_proxy
   export rsync_proxy=$http_proxy
@@ -149,6 +150,7 @@ bioconda-build-test () {
 }
 
 bioconda-build-shell () {
+    # docker-rm-exited-containers \
     docker run --rm --entrypoint=/bin/bash -it -e http_proxy=http://proxy.tch.harvard.edu:3128/ \
         -v  /home/gus/src/repos/git/bioconda-recipes/recipes:/bioconda-recipes \
         -v  /home/gus/src/repos/git:/gits \
@@ -157,6 +159,19 @@ bioconda-build-shell () {
         bioconda/bioconda-builder
 }
 
+bioconda-build-shell-linux-anvil () {
+    # docker-rm-exited-containers \
+    docker run --rm --entrypoint=/bin/bash -it -e http_proxy=http://proxy.tch.harvard.edu:3128/ \
+        -v  /home/gus/src/repos/git/bioconda-recipes/recipes:/bioconda-recipes \
+        -v  /home/gus/src/repos/git:/gits \
+        -v  /home/gus/.bioconda_docker_bin:/usr/local/bin \
+        -w  / \
+        condaforge/linux-anvil
+}
+
+docker-rm-exited-containers () {
+    docker rm $(docker ps -a -f status=exited -q)
+}
 
 # Set terminal color abilities
 if [ -e /usr/share/terminfo/x/xterm-256color ]; then
@@ -207,18 +222,23 @@ export PATH="${PATH}:${HOME}/.rvm/bin" # Add RVM to PATH for scripting
 
 #### Common filesystem specific locations
 export UGANDA_DB=$HOME/Dropbox/uganda_data
-export PROJECTSTUFF=/home/gus/Documents/YalePostDoc/project_stuff
+# export PROJECTSTUFF=/home/gus/Documents/YalePostDoc/project_stuff
 export SUBLIMEUSER=/home/gus/.config/sublime-text-3/Packages/User
 export LINSTALLS=$HOME/.local
 
 ### Specific commonly used data locations
+export GITREPOS="${HOME}/src/repos/git"
+export COOKIECUTTERS="${GITREPOS}/cookiecutters"
 export HUMAN_G1K_V37_FAS="/run/media/gus/Storage/BCH/data/g1k/reference_genome/human_g1k_v37.fasta"
-export PROJREPOS=$GITREPOS/project-repos/
+export PROJREPOS=$GITREPOS/project-repos
 export GMMGFF=$PROJREPOS/gmm-to-gff-transcripts-vs-snps
 export MRICORE=$PROJREPOS/IBD-MRI_core
 export IBDPORT=$PROJREPOS/prep-data-for-ibd-portal
 export VEOIBD=$PROJREPOS/veoibd_misc
 export VEOIBD_SYNAPSE=$PROJREPOS/veoibd-synapse-data-manager
+
+export EUROPA=/mnt/europa
+export GANYMEDE=/mnt/ganymede
 
 #### CUPS stopped playing nice without me setting this here
 # export CUPS_SERVER=localhost:631/version=1.1
@@ -264,8 +284,13 @@ alias mirror_up_antergos="sudo cp /etc/pacman.d/antergos-mirrorlist /etc/pacman.
 
 alias journal_dump="journalctl -xn 50"
 
-alias clean-evo-cache="killall evolution && rm -rf ~/.cache/evolution/mail/"
+alias clean-evo-cache="evolution --force-shutdown ; \
+rm -rf ${HOME}/.cache/evolution/mail"
 
+
+join-webex () {
+    bash $GITREPOS/ff32-webex/run.sh $1
+}
 
 journal_since_no_avahi () {
 
@@ -330,7 +355,7 @@ alias pinggoogle="ping -c 5 google.com"
 
 
 #### Pure git stuff
-export GITREPOS="${HOME}/src/repos/git"
+
 
 #### git flow stuff
 alias gf="git flow"
@@ -468,6 +493,12 @@ alias tterm="tracker-control -t"
 
 # recording from the command line
 alias cya="gnome-sound-recorder & ; pavucontrol &"
+
+
+# virtualenvwrapper
+export WORKON_HOME=~/.virtualenvs
+source /usr/bin/virtualenvwrapper.sh
+
 
 
 ### THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
