@@ -35,7 +35,7 @@ reset-conda-none () {
 
 
 # cookiecutter stuff
-mkproject () {
+cutcookie () {
     chenv cookiecutter
     echo "INFO: Changed conda envs."
     cookiecutter $1
@@ -45,7 +45,7 @@ mkproject () {
 }
 
 mkprojectdatascience () {
-    mkproject $GITREPOS/cookiecutters/cookiecutter-data-science
+    cutcookie $GITREPOS/cookiecutters/cookiecutter-data-science
 }
 
 # BCH VPN
