@@ -8,21 +8,39 @@ sync_with_upstream () {
 
 # makes and pushes new git repo to your github
 github-create () {
-
-    repo_name=$1
-
+    usage="Usage: github-create [-r <repo_name>] [-u <username>] [-o <org>] [-g <init_git>] [-h]"
+    # Defaults
     dir_name=$(basename $(pwd))
-
-
+    repo_name=$dir_name
+    username=$(git config github.user)
+    org=""
     [ -d ".git" ] && INIT_GIT="y" || INIT_GIT="n"
+    printusage="n"
 
+    while getopts r:u:o:gh params ; do
+        case "${params}"
+            in
+            r) repo_name=${OPTARG};;
+            u) username=${OPTARG};;
+            o) org=${OPTARG};;
+            g) INIT_GIT="y";;
+            h) printusage="y";;
+            *) printusage="y";;
+        esac
+    done
+
+    shift $((OPTIND-1))
+
+    if [ "$printusage" = 'y' ]; then
+        echo $usage
+        return
+    fi
 
 
     if [[ $CURL == *anaconda* ]]; then
         echo "[git-create][error]: You appear to be using an Anaconda-based version of curl; exit all anaconda environments and start again."
         invalid_credentials=1
     fi
-
 
 
     if [ "$repo_name" = "" ]; then
@@ -34,7 +52,6 @@ github-create () {
         repo_name=$dir_name
     fi
 
-    username=$(git config github.user)
     if [ "$username" = "" ]; then
         echo "[git-create][error]: Could not find username; run 'git config --global github.user <username>'"
         invalid_credentials=1
@@ -52,16 +69,18 @@ github-create () {
     fi
 
     if [[ $INIT_GIT == "n" ]]; then
-        echo "[git-create][info]: No git init detected; creating and performing intial commit..."
+        echo "[git-create][error]: No git init detected; either provide option -g or make sure you are in a git repo."
+        return
+    else
+        echo "[git-create][info]: Initializing this directory as a git repo and commiting contents."
         git init
         git add .
         git commit -m "First commit"
     fi
 
 
-    org=""
     if [ "$org" = "" ]; then
-        echo "[git-create][info]: Creating Github repository '$repo_name' ..."
+        echo "[git-create][info]: Creating Github repository '$repo_name' under '$username' ..."
         curl -u "$username:$token" https://api.github.com/user/repos -d '{"name":"'$repo_name'"}' # > /dev/null 2>&1
         echo "[git-create][info]:  done."
 
@@ -70,7 +89,7 @@ github-create () {
         git push -u origin master # > /dev/null 2>&1
         echo "[git-create][info]:  done."
     else
-        echo "[git-create][info]: Creating Github repository '$repo_name' ..."
+        echo "[git-create][info]: Creating Github repository '$repo_name' under '$org' ..."
         curl -u "$username:$token" https://api.github.com/orgs/$org/repos -d '{"name":"'$repo_name'"}' # > /dev/null 2>&1
         echo "[git-create][info]:  done."
 
