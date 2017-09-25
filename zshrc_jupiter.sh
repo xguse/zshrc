@@ -497,8 +497,8 @@ alias tterm="tracker-control -t"
 
 
 # #### Wine set up variables
-# export WINEPREFIX=$HOME/.config/wine32/
-# export WINEARCH=win32
+export WINEPREFIXES=$HOME/.local/share/wineprefixes
+export WINEARCH=win32
 
 
 # recording from the command line
