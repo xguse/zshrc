@@ -197,7 +197,7 @@ export PATH="${HOME}/bin:${HOME}/.local/bin:${HOME}/.luarocks/bin:${HOME}/.local
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='atom'
+  export EDITOR='emc'
 fi
 
 # alias atom=atom-beta
