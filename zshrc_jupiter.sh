@@ -317,6 +317,15 @@ alias sshXOrchestra="ssh -X ${ORCHESTRA}"
 alias mOrchestra="sshfs ${ORCHESTRA}:/home/wad4 ${MOUNTPOINT_ORCHESTRA}"
 alias uOrchestra="fusermount -u ${MOUNTPOINT_ORCHESTRA}"
 
+### O2 stuff
+O2=wad4@o2.hms.harvard.edu
+MOUNTPOINT_O2="${HOME}/remote_mounts/o2"
+
+alias sshO2="ssh ${O2}"
+alias sshXO2="ssh -X ${O2}"
+alias mO2="sshfs ${O2}:/home/wad4 ${MOUNTPOINT_O2}"
+alias uO2="fusermount -u ${MOUNTPOINT_O2}"
+
 #### Yale ssh shortcuts
 
 ### LOUISE stuff
