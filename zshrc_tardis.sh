@@ -1,3 +1,5 @@
+ANACONDA=$HOME/.anaconda
+
 ZGEN=/home/gus/src/repos/git/zgen/zgen.zsh
 ZSHRC_BASE=/home/gus/src/repos/git/zshrc
 

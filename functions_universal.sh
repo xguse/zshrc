@@ -29,8 +29,8 @@ pip-list-deps () {
 
 # conda
 reset-conda-none () {
-    rm -rf $ANACONDA/envs/none/*
-    mkdir $ANACONDA/envs/none/bin
+    rm -rf $ANACONDA/envs/none
+    mkdir -p $ANACONDA/envs/none/bin
 }
 
 

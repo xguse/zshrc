@@ -1,6 +1,7 @@
 #####################################################################
 ####### Set up zsh plugins and theme ################################
 #####################################################################
+ANACONDA=$HOME/.anaconda
 
 ZGEN=/path/to/git/zgen/zgen.zsh
 ZSHRC_BASE=/path/to/git/zshrc

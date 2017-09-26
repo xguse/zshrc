@@ -198,7 +198,7 @@ export PATH="${HOME}/bin:${HOME}/.local/bin:${HOME}/.node_modules/bin:${HOME}/.c
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='emc'
+  export EDITOR='atom'
 fi
 
 # alias atom=atom-beta
