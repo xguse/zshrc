@@ -99,7 +99,10 @@ alias qI8="qsub -I -lnodes=1:ppn=8 -S $(which zsh)"
 alias qI16="qsub -I -lnodes=1:ppn=16 -S $(which zsh)"
 alias qI60="qsub -I -lnodes=1:ppn=60 -S $(which zsh)"
 
-
+#### SLURM stuff
+alias sIn8m15="srun  -n 8 --mem 15G -p interactive -t 0-12:00 --pty $(which zsh)"
+alias sIn20m15="srun  -n 20 --mem 15G -p interactive -t 0-12:00 --pty $(which zsh)"
+alias sIn20m50="srun  -n 20 --mem 50G -p interactive -t 0-12:00 --pty $(which zsh)"
 
 
 #### Anaconda stuff
