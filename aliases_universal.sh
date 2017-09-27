@@ -15,8 +15,7 @@ alias rg='rg --color'
 alias ka='killall'
 
 # conda environment switching
-alias chenv="source $ANACONDA/bin/activate"
-alias chenv_="source $ANACONDA/bin/activate none"
+alias sa="source $ANACONDA/bin/activate"
 
 # focus music
 alias lnoise="mpv http://stream.spc.org:8008/longplayer"

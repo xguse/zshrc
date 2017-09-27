@@ -118,7 +118,7 @@ zstyle ':completion::complete:*' use-cache 1
 
 ## If no conda env is set: set it to the one below, otherwise do nothing.
 if [[ ${CONDA_ENV_PATH} == '' ]]; then
-    chenv none
+    sa none
 else
     # conda_env_name=(${(ps:/:)${CONDA_ENV_PATH}})
     # source $HOME/.anaconda/bin/activate $conda_env_name[-1]
@@ -128,9 +128,9 @@ fi
 
 jupyter-add-conda-env (){
     old_env=$CONDA_DEFAULT_ENV
-    chenv $1
+    sa $1
     python -m ipykernel install --user --name $1 --display-name "$2"
-    chenv $old_env
+    sa $old_env
 }
 
 jupyter-slides () {
@@ -406,10 +406,10 @@ pupdate () {
 
     conda_env=$CONDA_DEFAULT_ENV;
 
-    chenv_ ;
+    sa none ;
     # sudo etckeeper pre-install && sudoE powerpill $1 && sudo etckeeper post-install ;
     sudoE powerpill $1 ;
-    chenv $conda_env ;
+    sa $conda_env ;
 }
 
 

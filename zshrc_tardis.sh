@@ -250,14 +250,6 @@ alias ipnb="cd ${IPNB}; jupyter notebook"
 alias ipnbSERVER="cd ${IPNB}; ipython jupyter --profile=server"
 alias Ipython="jupyter --matplotlib tk --gui=tk"
 
-# #### Anaconda stuff
-alias chenv="source $HOME/.anaconda/bin/activate"
-alias chenv_="source $HOME/.anaconda/bin/activate none"
-# decondavate
-
-alias cstack2="condavate stack2"
-alias cstack3="condavate stack3"
-
 
 # function to test output code of a command
 outcode () {
