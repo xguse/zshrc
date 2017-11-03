@@ -219,7 +219,7 @@ alias emt="emacsclient -t"
 export PATH="${PATH}:${HOME}/.rvm/bin" # Add RVM to PATH for scripting
 
 
-# eval $(thefuck --alias)
+eval $(thefuck --alias wtf)
 
 
 #### Common filesystem specific locations
@@ -486,6 +486,7 @@ eval `dircolors ${solarized_256dark}`
 
 
 #### TMUX
+alias txq='txsn quick'
 
 ### tmuxinator
 source /home/gus/src/repos/git/tmuxinator/completion/tmuxinator.zsh
