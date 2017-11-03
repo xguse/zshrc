@@ -196,15 +196,15 @@ export PATH="${HOME}/bin:${HOME}/.local/bin:${HOME}/.node_modules/bin:${HOME}/.c
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
+  export EDITOR='micro'
 else
-  export EDITOR='atom'
+  export EDITOR='code'
 fi
 
 # alias atom=atom-beta
 alias edit=$EDITOR
 
-export VISUAL=atom
+export VISUAL=code
 
 # emacs aliases
 alias emc="emacsclient -c"
