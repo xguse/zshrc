@@ -1,4 +1,3 @@
-
 # getting AUR repos with ease
 aur_clone () {
     git clone https://aur.archlinux.org/${1}.git
@@ -51,4 +50,15 @@ mkprojectdatascience () {
 # BCH VPN
 vpn-bch () {
   sudo openconnect --juniper -C "DSID=${1}" https://vpn.childrens.harvard.edu
+}
+
+
+# update the zshrc repo
+update-zshrc-repo () {
+    ORIGDIR=$PWD
+    cd $ZSHRC_BASE
+    git pull
+    cd $ORIGDIR
+    zgen reset
+    source ~/.zshrc
 }
