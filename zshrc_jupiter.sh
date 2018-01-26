@@ -272,8 +272,6 @@ function jwt () {
 
 #### Random alias stuff
 
-alias dp="sudo -u dummyplug"
-
 alias rb="systemctl reboot -i"
 
 alias locbin="ln -st ${HOME}/.local/bin"
@@ -321,11 +319,54 @@ alias uOrchestra="fusermount -u ${MOUNTPOINT_ORCHESTRA}"
 ### O2 stuff
 O2=wad4@o2.hms.harvard.edu
 MOUNTPOINT_O2="${HOME}/remote_mounts/o2"
+MOUNTPOINT_O2_root="${HOME}/remote_mounts/o2_root"
 
 alias sshO2="ssh ${O2}"
 alias sshXO2="ssh -X ${O2}"
 alias mO2="sshfs ${O2}:/home/wad4 ${MOUNTPOINT_O2}"
 alias uO2="fusermount -u ${MOUNTPOINT_O2}"
+
+alias mO2_root="sshfs ${O2}:/ ${MOUNTPOINT_O2_root}"
+alias uO2_root="fusermount -u ${MOUNTPOINT_O2_root}"
+
+
+update-virscan-O2 () {
+    set -o xtrace
+
+    # Commands
+    update-virscan-O2-dir 'configs'
+    update-virscan-O2-dir 'data/raw/manifests'
+    update-virscan-O2-file 'Snakefile'
+}
+
+update-virscan-O2-file() {
+    set -o xtrace
+
+    # Constants
+    VIRSCAN_LOCAL="/home/gus/src/repos/git/project-repos/virscanpipeline"
+    VIRSCAN_O2="$MOUNTPOINT_O2/pipelines/projects/virscanpipeline"
+
+    target=$1
+
+    # Commands
+    cp $VIRSCAN_LOCAL/$target $VIRSCAN_O2/$target
+
+}
+
+update-virscan-O2-dir() {
+    set -o xtrace
+
+    # Constants
+    VIRSCAN_LOCAL="/home/gus/src/repos/git/project-repos/virscanpipeline"
+    VIRSCAN_O2="$MOUNTPOINT_O2/pipelines/projects/virscanpipeline"
+
+    target=$1
+
+    # Commands
+    cp -r $VIRSCAN_LOCAL/$target/* $VIRSCAN_O2/$target
+
+}
+
 
 #### Yale ssh shortcuts
 
@@ -507,9 +548,9 @@ export WINEARCH=win32
 alias cya="gnome-sound-recorder & ; pavucontrol &"
 
 
-# virtualenvwrapper
-export WORKON_HOME=~/.virtualenvs
-source /usr/bin/virtualenvwrapper.sh
+## virtualenvwrapper
+#export WORKON_HOME=~/.virtualenvs
+#source /usr/bin/virtualenvwrapper.sh
 
 
 
