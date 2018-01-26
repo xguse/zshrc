@@ -1,9 +1,14 @@
 
-# fetch and merge upstream into local master
-sync_with_upstream () {
+# make $1 the repository named upstream
+add_upstream () {
+    git remote add upstream $1
+}
+
+# fetch and merge given branch from upstream into local of same name
+sync_branch_with_upstream () {
     git fetch upstream
-    git checkout master
-    git merge upstream/master
+    git checkout $1
+    git merge upstream/$1
 }
 
 # makes and pushes new git repo to your github
