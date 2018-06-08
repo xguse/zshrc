@@ -1,3 +1,11 @@
+# Record the virgin PATH contents if we havent already
+if [ -z ${VIRGIN_PATH+x} ]
+    then
+        export VIRGIN_PATH=$PATH
+fi
+
+
+
 # Set anaconda install location
 ANACONDA=$HOME/.anaconda
 
@@ -78,7 +86,17 @@ source $ZSHRC_BASE/functions_git.sh
 #####################################################################
 ####### My config stuff #############################################
 #####################################################################
-reset-conda-none
+
+# # Setup PATH env vars and variants
+# export PATH="${PATH}:${HOME}/bin:${HOME}/.local/bin:${HOME}/.cabal/bin:${HOME}/.linuxbrew/bin:/usr/local/bin"
+
+# For when I need to call MY versions of things no matter what
+# export PATH="${HOME}/bin:${HOME}/.local/bin:${HOME}/.luarocks/bin:${HOME}/.local/lmod/lmod/5.9.3/libexec:${HOME}/.cabal/bin:${PATH}:/usr/local/bin:/home/gus/.gem/ruby/2.4.0/bin"
+
+
+export PATH="${HOME}/.local/bin:${HOME}/.node_modules/bin:${HOME}/.cabal/bin:/usr/local/bin:${HOME}/.gem/ruby/2.5.0/bin:${HOME}/.rvm/bin:${VIRGIN_PATH}"
+
+
 
 # #### fzf
 # source /usr/share/fzf/key-bindings.zsh
@@ -114,23 +132,33 @@ proxy_off(){
 
 #### Anaconda stuff
 
+# # # Looks like this is not used post conda 4.4
+# # add $ANACONDA/bin at the END of PATH
+# export PATH="${PATH}:${ANACONDA}/bin"
+
+# # create clean conda 'none' env dir
+# reset-conda-none
+
+# setup conda command
+source ${HOME}/.anaconda/etc/profile.d/conda.sh
+export MY_CONDA_ROOT=$(conda info --root)
+
 zstyle ':completion::complete:*' use-cache 1
 
-## If no conda env is set: set it to the one below, otherwise do nothing.
-if [[ ${CONDA_ENV_PATH} == '' ]]; then
-    sa none
-else
-    # conda_env_name=(${(ps:/:)${CONDA_ENV_PATH}})
-    # source $HOME/.anaconda/bin/activate $conda_env_name[-1]
-    echo "Conda environment already set: ${CONDA_ENV_PATH}."
+# ## If no conda env is set: set it to the one below, otherwise do nothing.
+# if [[ ${CONDA_ENV_PATH} == '' ]]; then
+#     sac none
+# else
+#     # conda_env_name=(${(ps:/:)${CONDA_ENV_PATH}})
+#     echo "Conda environment already set: ${CONDA_ENV_PATH}."
 
-fi
+# fi
 
 jupyter-add-conda-env (){
     old_env=$CONDA_DEFAULT_ENV
-    sa $1
+    sac $1
     python -m ipykernel install --user --name $1 --display-name "$2"
-    sa $old_env
+    sac $old_env
 }
 
 jupyter-slides () {
@@ -183,13 +211,6 @@ fi
 
 # export TERM='xterm-color'
 
-# # Setup PATH env vars and variants
-# export PATH="${PATH}:${HOME}/bin:${HOME}/.local/bin:${HOME}/.cabal/bin:${HOME}/.linuxbrew/bin:/usr/local/bin"
-
-# For when I need to call MY versions of things no matter what
-# export PATH="${HOME}/bin:${HOME}/.local/bin:${HOME}/.luarocks/bin:${HOME}/.local/lmod/lmod/5.9.3/libexec:${HOME}/.cabal/bin:${PATH}:/usr/local/bin:/home/gus/.gem/ruby/2.4.0/bin"
-export PATH="${HOME}/bin:${HOME}/.local/bin:${HOME}/.node_modules/bin:${HOME}/.cabal/bin:${PATH}:/usr/local/bin:/home/gus/.gem/ruby/2.4.0/bin"
-
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -215,9 +236,6 @@ alias emt="emacsclient -t"
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/id_rsa.pub"
-
-export PATH="${PATH}:${HOME}/.rvm/bin" # Add RVM to PATH for scripting
-
 
 eval $(thefuck --alias wtf)
 
@@ -326,8 +344,10 @@ alias sshXO2="ssh -X ${O2}"
 alias mO2="sshfs ${O2}:/home/wad4 ${MOUNTPOINT_O2}"
 alias uO2="fusermount -u ${MOUNTPOINT_O2}"
 
-alias mO2_root="sshfs ${O2}:/ ${MOUNTPOINT_O2_root}"
+alias mO2_root="sshfs ${O2}:/n/scratch2/wad4/ ${MOUNTPOINT_O2_root}"
 alias uO2_root="fusermount -u ${MOUNTPOINT_O2_root}"
+
+# export VIR
 
 
 update-virscan-O2 () {
@@ -335,7 +355,8 @@ update-virscan-O2 () {
 
     # Commands
     update-virscan-O2-dir 'configs'
-    update-virscan-O2-dir 'data/raw/manifests'
+    update-virscan-O2-dir 'src'
+    # update-virscan-O2-dir 'data/raw/manifests'
     update-virscan-O2-file 'Snakefile'
 }
 
@@ -447,10 +468,10 @@ pupdate () {
 
     conda_env=$CONDA_DEFAULT_ENV;
 
-    sa none ;
+    sac none ;
     # sudo etckeeper pre-install && sudoE powerpill $1 && sudo etckeeper post-install ;
     sudoE powerpill $1 ;
-    sa $conda_env ;
+    sac $conda_env ;
 }
 
 
@@ -481,35 +502,6 @@ alias stowlink="stowv -t"
 alias stowbreak="stowv -D"
 alias stowrelink="stowv -Rt"
 
-# #### Lua envvars
-# export LUA_PATH='/home/gus/.luarocks/share/lua/5.2/?.lua;/home/gus/.luarocks/share/lua/5.2/?/init.lua;/usr/share/lua/5.2/?.lua;/usr/share/lua/5.2/?/init.lua;/usr/lib/lua/5.2/?.lua;/usr/lib/lua/5.2/?/init.lua;./?.lua'
-# export LUA_CPATH='/home/gus/.luarocks/lib/lua/5.2/?.so;/usr/lib/lua/5.2/?.so;/usr/lib/lua/5.2/loadall.so;./?.so'
-#
-#
-# #### Init Lmod Stuff
-# source $HOME/.local/lmod/5.9.3/init/zsh
-# export LMOD_CMD=$HOME/.local/lmod/5.9.3/libexec/lmod
-#
-# export LIBRARY_PATH='/usr/lib:/usr/lib64:/usr/lib32'
-# export LD_LIBRARY_PATH=$LIBRARY_PATH
-#
-#
-# EBUILD_MOD_DIRS="/home/gus/.local/easybuild/modules/bio:/home/gus/.local/easybuild/modules/compiler:/home/gus/.local/easybuild/modules/lang:/home/gus/.local/easybuild/modules/mpi:/home/gus/.local/easybuild/modules/numlib:/home/gus/.local/easybuild/modules/system:/home/gus/.local/easybuild/modules/toolchain:/home/gus/.local/easybuild/modules/tools:/home/gus/.local/easybuild/modules/all"
-#
-# export MODULEPATH=$HOME/.local/lmod/5.9.3/modulefiles:$EBUILD_MOD_DIRS
-# alias md=module
-#
-#
-# #### EasyBuild stuff
-# export EASYBUILD_CONFIGFILES=$HOME/.config/easybuild/config.cfg
-# export EASYBUILD_MODULES_TOOL=Lmod
-# # export PYTHONPATH=/home/gus/.local/lib/python2.7/site-packages
-#
-# # module load EasyBuild/2.0.0
-#
-# alias ebgoolf-1.5.14-no-OFED="eb --try-toolchain=goolf,1.5.14-no-OFED"
-# alias eb_build_alert="fembot -t 'build exited' -r 10"
-
 
 #### make calling xdg-open easier
 alias open="xdg-open"
@@ -530,6 +522,13 @@ eval `dircolors ${solarized_256dark}`
 alias txq='txsn quick'
 
 ### tmuxinator
+
+update-tmuxinator-and-source () {
+    (cd /home/gus/src/repos/git/tmuxinator && git pull)
+    source /home/gus/src/repos/git/tmuxinator/completion/tmuxinator.zsh
+}
+
+
 source /home/gus/src/repos/git/tmuxinator/completion/tmuxinator.zsh
 alias muxmain="mux start main"
 
@@ -552,6 +551,9 @@ alias cya="gnome-sound-recorder & ; pavucontrol &"
 #export WORKON_HOME=~/.virtualenvs
 #source /usr/bin/virtualenvwrapper.sh
 
+
+## Other auto-complete scripts
+source $GITREPOS/invoke/completion/zsh
 
 
 ### THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!

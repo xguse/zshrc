@@ -17,7 +17,7 @@ ZSHRC_BASE=$HOME/src/repos/git/zshrc
 fpath=($ZSHRC_BASE/zsh_supplements/Functions/Misc $fpath)
 
 # Set name of the theme to load.
-ZSH_THEME="sporty_256" #"kphoen" #"candy" #"agnoster" "steeef" #"candy" #"agnoster"
+ZSH_THEME="steeef" #"kphoen" #"candy" #"agnoster" "steeef" #"candy" #"agnoster"
 
 # load zgen
 source $ZGEN
@@ -90,14 +90,14 @@ export GITREPOS="${HOME}/src/repos/git"
 
 
 
-#### PBS stuff
-export BSCRIPTS="${HOME}/bsub_scripts"
+# #### PBS stuff
+# export BSCRIPTS="${HOME}/bsub_scripts"
 
-alias qme="qstat -u ${USER}"
-alias qI="bsub -Is -q interactive zsh"
-alias qI8="qsub -I -lnodes=1:ppn=8 -S $(which zsh)"
-alias qI16="qsub -I -lnodes=1:ppn=16 -S $(which zsh)"
-alias qI60="qsub -I -lnodes=1:ppn=60 -S $(which zsh)"
+# alias qme="qstat -u ${USER}"
+# alias qI="bsub -Is -q interactive zsh"
+# alias qI8="qsub -I -lnodes=1:ppn=8 -S $(which zsh)"
+# alias qI16="qsub -I -lnodes=1:ppn=16 -S $(which zsh)"
+# alias qI60="qsub -I -lnodes=1:ppn=60 -S $(which zsh)"
 
 #### SLURM stuff
 alias sqme="squeue -u ${USER}"
@@ -106,14 +106,16 @@ alias sIn20m15="srun  -n 20 --mem 15G -p interactive -t 0-12:00 --pty $(which zs
 alias sIn20m50="srun  -n 20 --mem 50G -p interactive -t 0-12:00 --pty $(which zsh)"
 
 
+
 #### Anaconda stuff
-## If no conda env is set: set it to the one below, otherwise do nothing.
-if [[ ${CONDA_ENV_PATH} == '' ]]; then
-    source $HOME/.anaconda/bin/activate none
-else
-    conda_env_name=(${(ps:/:)${CONDA_ENV_PATH}})
-    source $HOME/.anaconda/bin/activate $conda_env_name[-1]
-fi
+# ## If no conda env is set: set it to the one below, otherwise do nothing.
+# if [[ ${CONDA_ENV_PATH} == '' ]]; then
+#     source $HOME/.anaconda/bin/activate none
+# else
+#     conda_env_name=(${(ps:/:)${CONDA_ENV_PATH}})
+#     source $HOME/.anaconda/bin/activate $conda_env_name[-1]
+# fi
+
 
 
 

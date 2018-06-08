@@ -1,4 +1,13 @@
 
+
+xxxxx () {
+    gco master
+    gm develop
+    git push -f --all
+    gco develop
+    git push --tags
+}
+
 # make $1 the repository named upstream
 add_upstream () {
     git remote add upstream $1
