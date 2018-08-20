@@ -5,9 +5,13 @@ if [ -z ${VIRGIN_PATH+x} ]
 fi
 
 
+## homebrew
+export ZSH_DISABLE_COMPFIX=true
 
 # Set anaconda install location
 ANACONDA=$HOME/.anaconda
+alias ca="conda activate"
+alias dact="conda deactivate"
 
 # Begin ZGEN config
 ZGEN=${HOME}/src/git/zgen/zgen.zsh
@@ -94,11 +98,12 @@ source $ZSHRC_BASE/functions_git.sh
 # export PATH="${HOME}/bin:${HOME}/.local/bin:${HOME}/.luarocks/bin:${HOME}/.local/lmod/lmod/5.9.3/libexec:${HOME}/.cabal/bin:${PATH}:/usr/local/bin:${HOME}/.gem/ruby/2.4.0/bin"
 
 
-export PATH="${HOME}/.local/bin:${HOME}/.node_modules/bin:${HOME}/.cabal/bin:/usr/local/bin:${HOME}/.gem/ruby/2.5.0/bin:${HOME}/.rvm/bin:${VIRGIN_PATH}"
+export PATH="${HOME}/.local/bin:${HOME}/.node_modules/bin:${HOME}/.cabal/bin:/usr/local/bin:${HOME}/.gem/ruby/2.5.0/bin:${HOME}/.rvm/bin:/Applications/Postgres.app/Contents/Versions/latest/bin:${VIRGIN_PATH}"
 
 
 # Aliases
 alias ls="ls -Gh"
+alias admin="sudo -u admin_gus"
 
 # #### fzf
 # source /usr/share/fzf/key-bindings.zsh
@@ -120,7 +125,8 @@ alias ls="ls -Gh"
 
 # setup conda command
 source ${HOME}/.anaconda/etc/profile.d/conda.sh
-export MY_CONDA_ROOT=$(conda info --root)
+export MY_CONDA_ROOT=$(conda info --base)
+conda activate main
 
 zstyle ':completion::complete:*' use-cache 1
 
@@ -215,6 +221,8 @@ export GITREPOS="${HOME}/src/git"
 export COOKIECUTTERS="${GITREPOS}/cookiecutters"
 export HUMAN_G1K_V37_FAS="/run/media/gus/Storage/BCH/data/g1k/reference_genome/human_g1k_v37.fasta"
 export PROJREPOS=$GITREPOS/project-repos
+export MYPEMS="${HOME}/.ssh/pems"
+
 
 #### CUPS stopped playing nice without me setting this here
 # export CUPS_SERVER=localhost:631/version=1.1
@@ -318,6 +326,14 @@ alias zedit="edit $GITREPOS/zshrc"
 
 # source ${HOME}/src/repos/git/tmuxinator/completion/tmuxinator.zsh
 # alias muxmain="mux start main"
+
+
+## DJANGO STUFF
+export DJANGO_DATA_DIR="/Users/GusDunn/src/git/project-repos/prod/data"
+export DJANGO_TOOLS_DIR="/Users/GusDunn/src/git/project-repos/prod/tools"
+export PYTHONPATH=$PROJREPOS/prod/cogen
+export DJANGO_SETTINGS_MODULE=cogen.settings
+
 
 
 ## Other auto-complete scripts
