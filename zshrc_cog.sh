@@ -252,25 +252,33 @@ alias zulu_time="date -u +'%Y-%m-%dT%H:%M:%SZ'"
 alias zulu_stamp="date -u +'%Y-%m-%dT%H.%M.%SZ'"
 alias time_stamp="date +'%Y-%m-%dT%H.%M.%S'"
 
+## AWS stuff
+export AWS_DIR="${HOME}/.aws"
 
-#### Harvard ssh shortcuts
-### ORCHESTRA stuff
-MOUNTPOINT_ORCHESTRA="${HOME}/remote_mounts/orchestra"
+export PEM_GUS_INITIAL=$AWS_DIR/gus_initial.pem
 
-### O2 stuff
-O2=wad4@o2.hms.harvard.edu
-MOUNTPOINT_O2="${HOME}/remote_mounts/o2"
-MOUNTPOINT_O2_root="${HOME}/remote_mounts/o2_root"
+alias ssh_GD_000="ssh -i ${PEM_GUS_INITIAL} ubuntu@ec2-34-226-248-157.compute-1.amazonaws.com"
 
-alias sshO2="ssh ${O2}"
-alias sshXO2="ssh -X ${O2}"
-alias mO2="sshfs ${O2}:/home/wad4 ${MOUNTPOINT_O2}"
-alias uO2="fusermount -u ${MOUNTPOINT_O2}"
+ssh_pipeline_analytics(){
+    PUB_DNS=$1
 
-alias mO2_root="sshfs ${O2}:/n/scratch2/wad4/ ${MOUNTPOINT_O2_root}"
-alias uO2_root="fusermount -u ${MOUNTPOINT_O2_root}"
+    COMMAND="ssh -i ${PEM_GUS_INITIAL} ubuntu@${PUB_DNS}"
+    echo "using command: $COMMAND"
+
+    ssh -i ${PEM_GUS_INITIAL} ubuntu@${PUB_DNS}
+    
+}
 
 
+ssh_pipeline_analytics_jupyter(){
+    PUB_DNS=$1
+
+    COMMAND="ssh -i ${PEM_GUS_INITIAL} -L 8000:localhost:8888 ubuntu@${PUB_DNS}"
+    echo "using command: $COMMAND"
+    ssh -i ${PEM_GUS_INITIAL} -L 8000:localhost:8888 ubuntu@${PUB_DNS}
+
+
+}
 
 #### Ping Google
 alias pinggoogle="ping -c 5 google.com"
@@ -333,6 +341,8 @@ export DJANGO_DATA_DIR="/Users/GusDunn/src/git/project-repos/prod/data"
 export DJANGO_TOOLS_DIR="/Users/GusDunn/src/git/project-repos/prod/tools"
 export PYTHONPATH=$PROJREPOS/prod/cogen
 export DJANGO_SETTINGS_MODULE=cogen.settings
+export PROD_BASE_PIPELINE_INPUT_DIR=/Users/GusDunn/src/git/project-repos/prod/data/pipeline_input
+export PROD_BASE_PIPELINE_OUTPUT_DIR=$DJANGO_DATA_DIR/pipeline_output
 
 
 
