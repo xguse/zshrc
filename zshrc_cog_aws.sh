@@ -14,7 +14,7 @@ alias dact="conda deactivate"
 
 # Begin ZGEN config
 ZGEN=${HOME}/.zgen/zgen.zsh
-ZSHRC_BASE=${HOME}/zshrc
+ZSHRC_BASE=${HOME}/storage/git/zshrc
 
 # Set name of the theme to load.
 ZSH_THEME="sporty_256" #"kphoen" #"candy" #"agnoster" "steeef" #"candy" #"agnoster"
@@ -97,7 +97,7 @@ source $ZSHRC_BASE/functions_git.sh
 # export PATH="${HOME}/bin:${HOME}/.local/bin:${HOME}/.luarocks/bin:${HOME}/.local/lmod/lmod/5.9.3/libexec:${HOME}/.cabal/bin:${PATH}:/usr/local/bin:${HOME}/.gem/ruby/2.4.0/bin"
 
 
-export PATH="${HOME}/.local/bin:${HOME}/.node_modules/bin:${HOME}/.cabal/bin:/usr/local/bin:${HOME}/.gem/ruby/2.5.0/bin:${HOME}/.rvm/bin:${VIRGIN_PATH}"
+export PATH="${HOME}/.local/bin:${HOME}/.node_modules/bin:${HOME}/.cabal/bin:/usr/local/bin:/snap/bin:${HOME}/.gem/ruby/2.5.0/bin:${HOME}/.rvm/bin:${VIRGIN_PATH}"
 
 
 # Aliases
@@ -123,8 +123,8 @@ alias ls="ls -Gh"
 
 # setup conda command
 source $ANACONDA/etc/profile.d/conda.sh
-export MY_CONDA_ROOT=$(conda info --base)
-# conda activate main
+# export MY_CONDA_ROOT=$(conda info --base)
+conda activate base
 
 zstyle ':completion::complete:*' use-cache 1
 
@@ -155,17 +155,14 @@ zstyle ':completion::complete:*' use-cache 1
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='micro'
 else
-  export EDITOR='code'
+  export EDITOR='micro'
 fi
 
 # alias atom=atom-beta
 alias edit=$EDITOR
 
-export VISUAL=code
+export VISUAL=micro
 
-# emacs aliases
-alias emc="emacsclient -c"
-alias emt="emacsclient -t"
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -178,10 +175,7 @@ alias emt="emacsclient -t"
 
 
 ### Specific commonly used data locations
-export GITREPOS="${HOME}/src/git"
-export COOKIECUTTERS="${GITREPOS}/cookiecutters"
-export HUMAN_G1K_V37_FAS="/run/media/gus/Storage/BCH/data/g1k/reference_genome/human_g1k_v37.fasta"
-export PROJREPOS=$GITREPOS/project-repos
+export GITREPOS="${HOME}/storage/git"
 export MYPEMS="${HOME}/.ssh/pems"
 
 
@@ -192,18 +186,6 @@ export MYPEMS="${HOME}/.ssh/pems"
 alias sudoE="sudo -E"
 
 
-#### Jrnl stuff
-
-alias jw="jrnl work &"
-
-function jwt () {
-    jw < ~/Dropbox/jrnl/jrnl_work_tmpl.jnrl
-    jw -1 --edit
-}
-
-
-#### Random alias stuff
-alias kp="killall pithos"
 
 
 
@@ -218,28 +200,8 @@ export AWS_DIR="${HOME}/.aws"
 
 export PEM_GUS_INITIAL=$AWS_DIR/gus_initial.pem
 
-alias ssh_GD_000="ssh -i ${PEM_GUS_INITIAL} ubuntu@ec2-34-226-248-157.compute-1.amazonaws.com"
-
-ssh_pipeline_analytics(){
-    PUB_DNS=$1
-
-    COMMAND="ssh -i ${PEM_GUS_INITIAL} ubuntu@${PUB_DNS}"
-    echo "using command: $COMMAND"
-
-    ssh -i ${PEM_GUS_INITIAL} ubuntu@${PUB_DNS}
-    
-}
 
 
-ssh_pipeline_analytics_jupyter(){
-    PUB_DNS=$1
-
-    COMMAND="ssh -i ${PEM_GUS_INITIAL} -L 8000:localhost:8888 ubuntu@${PUB_DNS}"
-    echo "using command: $COMMAND"
-    ssh -i ${PEM_GUS_INITIAL} -L 8000:localhost:8888 ubuntu@${PUB_DNS}
-
-
-}
 
 #### Ping Google
 alias pinggoogle="ping -c 5 google.com"
@@ -254,7 +216,7 @@ alias gf="git flow"
 
 
 #### OVERRIDE editing zshrc
-alias zedit="edit $GITREPOS/zshrc"
+alias zedit="edit $HOME/.zshrc"
 
 
 # #### Hugo aliases
@@ -297,18 +259,10 @@ alias zedit="edit $GITREPOS/zshrc"
 # alias muxmain="mux start main"
 
 
-## DJANGO STUFF
-export DJANGO_DATA_DIR="/Users/GusDunn/src/git/project-repos/prod/data"
-export DJANGO_TOOLS_DIR="/Users/GusDunn/src/git/project-repos/prod/tools"
-export PYTHONPATH=$PROJREPOS/prod/cogen
-export DJANGO_SETTINGS_MODULE=cogen.settings
-export PROD_BASE_PIPELINE_INPUT_DIR=/Users/GusDunn/src/git/project-repos/prod/data/pipeline_input
-export PROD_BASE_PIPELINE_OUTPUT_DIR=$DJANGO_DATA_DIR/pipeline_output
-
 
 
 ## Other auto-complete scripts
-source $GITREPOS/invoke/completion/zsh
+source <(invoke --print-completion-script=zsh)
 
 
 ### THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
