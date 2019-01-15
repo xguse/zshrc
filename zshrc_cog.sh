@@ -4,6 +4,7 @@ if [ -z ${VIRGIN_PATH+x} ]
         export VIRGIN_PATH=$PATH
 fi
 
+fpath+=~/.zfunc
 
 ## homebrew
 export ZSH_DISABLE_COMPFIX=true
@@ -98,7 +99,7 @@ source $ZSHRC_BASE/functions_git.sh
 # export PATH="${HOME}/bin:${HOME}/.local/bin:${HOME}/.luarocks/bin:${HOME}/.local/lmod/lmod/5.9.3/libexec:${HOME}/.cabal/bin:${PATH}:/usr/local/bin:${HOME}/.gem/ruby/2.4.0/bin"
 
 
-export PATH="${HOME}/.local/bin:${HOME}/.node_modules/bin:${HOME}/.cabal/bin:/usr/local/bin:${HOME}/.gem/ruby/2.5.0/bin:${HOME}/.rvm/bin:/Applications/Postgres.app/Contents/Versions/latest/bin:${VIRGIN_PATH}"
+export PATH="$HOME/.poetry/bin:${HOME}/.local/bin:${HOME}/.node_modules/bin:${HOME}/.cabal/bin:/usr/local/bin:${HOME}/.gem/ruby/2.5.0/bin:${HOME}/.rvm/bin:/Applications/Postgres.app/Contents/Versions/latest/bin:${VIRGIN_PATH}"
 
 
 # Aliases
@@ -202,48 +203,17 @@ alias edit=$EDITOR
 
 export VISUAL=code
 
-# emacs aliases
-alias emc="emacsclient -c"
-alias emt="emacsclient -t"
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/id_rsa.pub"
-
-# eval $(thefuck --alias wtf)
-
 
 
 ### Specific commonly used data locations
 export GITREPOS="${HOME}/src/git"
 export COOKIECUTTERS="${GITREPOS}/cookiecutters"
-export HUMAN_G1K_V37_FAS="/run/media/gus/Storage/BCH/data/g1k/reference_genome/human_g1k_v37.fasta"
 export PROJREPOS=$GITREPOS/project-repos
 export MYPEMS="${HOME}/.ssh/pems"
 
 
-#### CUPS stopped playing nice without me setting this here
-# export CUPS_SERVER=localhost:631/version=1.1
-
 #### alias to use sudo with my environment
 alias sudoE="sudo -E"
-
-
-#### Jrnl stuff
-
-alias jw="jrnl work &"
-
-function jwt () {
-    jw < ~/Dropbox/jrnl/jrnl_work_tmpl.jnrl
-    jw -1 --edit
-}
-
-
-#### Random alias stuff
-alias kp="killall pithos"
-
 
 
 #### ISO DATE
@@ -256,29 +226,29 @@ alias time_stamp="date +'%Y-%m-%dT%H.%M.%S'"
 export AWS_DIR="${HOME}/.aws"
 
 export PEM_GUS_INITIAL=$AWS_DIR/gus_initial.pem
+export PEM_BASTION_HOST_US_EAST1=$AWS_DIR/BASTION_HOST_US_EAST1.pem
 
 alias ssh_GD_000="ssh -i ${PEM_GUS_INITIAL} ubuntu@ec2-34-226-248-157.compute-1.amazonaws.com"
 
+export PROD_PUB_DNS="ec2-184-73-9-223.compute-1.amazonaws.com"
+
+ssh_prod(){
+    ssh -i ${PEM_BASTION_HOST_US_EAST1} ubuntu@${PROD_PUB_DNS}
+}
+
+
 ssh_pipeline_analytics(){
     PUB_DNS=$1
-
-    COMMAND="ssh -i ${PEM_GUS_INITIAL} ubuntu@${PUB_DNS}"
-    echo "using command: $COMMAND"
-
     ssh -i ${PEM_GUS_INITIAL} ubuntu@${PUB_DNS}
-    
 }
 
 
 ssh_pipeline_analytics_jupyter(){
     PUB_DNS=$1
-
-    COMMAND="ssh -i ${PEM_GUS_INITIAL} -L 8000:localhost:8888 ubuntu@${PUB_DNS}"
-    echo "using command: $COMMAND"
-    ssh -i ${PEM_GUS_INITIAL} -L 8000:localhost:8888 ubuntu@${PUB_DNS}
-
-
+    ssh -i ${PEM_GUS_INITIAL} -L 8888:localhost:8888 ubuntu@${PUB_DNS}
 }
+
+
 
 #### Ping Google
 alias pinggoogle="ping -c 5 google.com"
@@ -296,44 +266,7 @@ alias gf="git flow"
 alias zedit="edit $GITREPOS/zshrc"
 
 
-# #### Hugo aliases
-# alias hnew="hugo new"
 
-
-# #### Writing locations
-# export WRITINGCAVE="${GITREPOS}/markdown-docs"
-# alias cave="cd $WRITINGCAVE"
-
-# export DDRAD2=$HOME/MEGAsync/projects/ddRAD_phase2/repos/ddRAD_phase2
-
-
-
-# #### Java settings
-# export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=setting'
-# export _JAVA_OPTIONS='-Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
-# export JAVA_FONTS=/usr/share/fonts/TTF
-
-
-# ## Themes available
-# solarized_256dark=$HOME/.dircolors-solarized/dircolors.256dark
-
-# # ## Set the colors
-# eval `dircolors ${solarized_256dark}`
-
-
-#### TMUX
-# alias txq='txsn quick'
-
-### tmuxinator
-
-# update-tmuxinator-and-source () {
-#     (cd ${HOME}/src/repos/git/tmuxinator && git pull)
-#     source ${HOME}/src/repos/git/tmuxinator/completion/tmuxinator.zsh
-# }
-
-
-# source ${HOME}/src/repos/git/tmuxinator/completion/tmuxinator.zsh
-# alias muxmain="mux start main"
 
 
 ## DJANGO STUFF
@@ -341,9 +274,32 @@ export DJANGO_DATA_DIR="/Users/GusDunn/src/git/project-repos/prod/data"
 export DJANGO_TOOLS_DIR="/Users/GusDunn/src/git/project-repos/prod/tools"
 export PYTHONPATH=$PROJREPOS/prod/cogen
 export DJANGO_SETTINGS_MODULE=cogen.settings
-export PROD_BASE_PIPELINE_INPUT_DIR=/Users/GusDunn/src/git/project-repos/prod/data/pipeline_input
-export PROD_BASE_PIPELINE_OUTPUT_DIR=$DJANGO_DATA_DIR/pipeline_output
 
+
+#### SSHFS
+
+## PROD
+export EC2_PROD=$HOME/Mounts/prod_ec2
+mount_prod_ec2(){
+    SERVER=$PROD_PUB_DNS
+    sshfs ubuntu@${SERVER}:/ $EC2_PROD
+}
+
+unmount_prod_ec2(){
+    fusermount -u $EC2_PROD
+}
+
+## ANALYTICS
+export EC2_ANALYTICS=$HOME/Mounts/analytics_ec2
+mount_analytics_ec2(){
+    SERVER=$1
+
+    sshfs ubuntu@${SERVER}:/ $EC2_ANALYTICS
+}
+
+unmount_analytics_ec2(){
+    fusermount -u $EC2_ANALYTICS
+}
 
 
 ## Other auto-complete scripts
