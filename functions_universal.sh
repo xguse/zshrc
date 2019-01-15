@@ -35,11 +35,7 @@ reset-conda-none () {
 
 # cookiecutter stuff
 cutcookie () {
-    ca cookiecutter
-    echo "INFO: Changed conda envs."
     cookiecutter $1
-    echo "INFO: Switching conda envs to 'none'."
-    source dact
     echo "INFO: Enjoy your work!"
 }
 
