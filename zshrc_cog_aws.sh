@@ -5,6 +5,7 @@ if [ -z ${VIRGIN_PATH+x} ]
 fi
 
 
+export STORAGE=${HOME}/storage
 
 
 # Set anaconda install location
@@ -101,12 +102,19 @@ export PATH="${HOME}/.local/bin:${HOME}/.node_modules/bin:${HOME}/.cabal/bin:/us
 
 
 # Aliases
-alias ls="ls -Gh"
+#alias ls="ls -Gh"
 
-# #### fzf
-# source /usr/share/fzf/key-bindings.zsh
-# source /usr/share/fzf/completion.zsh
 
+#### s3fs
+PIPELINE_S3_DIR=$HOME/S3
+
+mount_pipeline_s3(){
+	sudo s3fs \
+		production-pipeline-data \
+		-o passwd_file=$HOME/.aws/s3fs_creds \
+		$PIPELINE_S3_DIR
+	
+}
 
 ##### proxy stuff
 
