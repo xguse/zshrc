@@ -66,8 +66,8 @@ if ! zgen saved; then
     zgen load zsh-users/zsh-completions src
 
     # theme
-    # zgen load denysdovhan/spaceship-zsh-theme spaceship
-    zgen oh-my-zsh themes/$ZSH_THEME
+    zgen load denysdovhan/spaceship-zsh-theme spaceship
+    # zgen oh-my-zsh themes/$ZSH_THEME
 
     # save all to init script
     zgen save
@@ -106,6 +106,16 @@ export PATH="$HOME/.poetry/bin:${HOME}/.local/bin:${HOME}/.node_modules/bin:${HO
 alias ls="ls -Gh"
 alias admin="sudo -u admin_gus"
 
+
+bump-version-and-history(){
+    bumpversion $1
+    git-chglog > HISTORY.md
+    git add .
+    git commit --amend --no-edit
+    git tag --force $(git describe --tags $(git rev-list --tags --max-count=1))
+
+}
+
 # #### fzf
 # source /usr/share/fzf/key-bindings.zsh
 # source /usr/share/fzf/completion.zsh
@@ -125,9 +135,9 @@ alias admin="sudo -u admin_gus"
 # reset-conda-none
 
 # setup conda command
-source ${HOME}/.anaconda/etc/profile.d/conda.sh
-export MY_CONDA_ROOT=$(conda info --base)
-conda activate main
+# source ${HOME}/.anaconda/etc/profile.d/conda.sh  # commented out by conda initialize
+# export MY_CONDA_ROOT=$(conda info --base)
+# conda activate main
 
 zstyle ':completion::complete:*' use-cache 1
 
@@ -231,11 +241,25 @@ export PEM_BASTION_HOST_US_EAST1=$AWS_DIR/BASTION_HOST_US_EAST1.pem
 alias ssh_GD_000="ssh -i ${PEM_GUS_INITIAL} ubuntu@ec2-34-226-248-157.compute-1.amazonaws.com"
 
 export PROD_PUB_DNS="ec2-184-73-9-223.compute-1.amazonaws.com"
+export GALAXY_IP="54.163.140.135"
 
 ssh_prod(){
     ssh -i ${PEM_BASTION_HOST_US_EAST1} ubuntu@${PROD_PUB_DNS}
 }
 
+ssh_compsci(){
+    ssh -i ${HOME}/.ssh/id_rsa_compsci.pub gdunn@compsci
+}
+
+ssh_gal(){
+    ssh ubuntu@${GALAXY_IP}
+}
+
+ssh_gal_jupyter(){
+    worker_node=$1
+
+    ssh -4 -L 8000:localhost:8001 gdunn@$GALAXY_IP -t ssh -4 -L 8001:localhost:8889 gdunn@${worker_node}
+}
 
 ssh_pipeline_analytics(){
     PUB_DNS=$1
@@ -245,9 +269,14 @@ ssh_pipeline_analytics(){
 
 ssh_pipeline_analytics_jupyter(){
     PUB_DNS=$1
-    ssh -i ${PEM_GUS_INITIAL} -L 8888:localhost:8888 ubuntu@${PUB_DNS}
+    ssh -i ${PEM_GUS_INITIAL} -N -L 8000:localhost:8888 ubuntu@${PUB_DNS}
 }
 
+
+ssh_cluster_jump(){
+    user=$1
+    ssh -4 -L 8000:localhost:8001 ${user}@$GALAXY_IP -t ssh -4 -L 8001:localhost:8889 ${user}@w1
+}
 
 
 #### Ping Google
@@ -304,6 +333,30 @@ unmount_analytics_ec2(){
 
 ## Other auto-complete scripts
 source $GITREPOS/invoke/completion/zsh
+
+
+# edit the ZSH keybindings
+bindkey "^[[1;9C" forward-word
+bindkey "^[[1;9D" backward-word
+
+ 
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/GusDunn/.anaconda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/GusDunn/.anaconda/etc/profile.d/conda.sh" ]; then
+        . "/Users/GusDunn/.anaconda/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/GusDunn/.anaconda/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+ca main
 
 
 ### THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
