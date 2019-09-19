@@ -10,7 +10,7 @@ fpath+=~/.zfunc
 export ZSH_DISABLE_COMPFIX=true
 
 # Set anaconda install location
-ANACONDA=$HOME/.anaconda
+ANACONDA=${HOME}/anaconda3
 alias ca="conda activate"
 alias dact="conda deactivate"
 
@@ -108,12 +108,16 @@ alias admin="sudo -u admin_gus"
 
 
 bump-version-and-history(){
-    bumpversion $1
-    git-chglog > HISTORY.md
-    git add .
-    git commit --amend --no-edit
-    git tag --force $(git describe --tags $(git rev-list --tags --max-count=1))
-
+    if conda activate bumpver_and_hist ; then
+        bumpversion $1 
+        git-chglog > HISTORY.md 
+        git add .
+        git commit --amend --no-edit
+        git tag --force $(git describe --tags $(git rev-list --tags --max-count=1))
+        conda deactivate
+    else
+        echo "ERROR: failed to activate bumpver_and_hist environment!"
+    fi
 }
 
 # #### fzf
@@ -251,6 +255,15 @@ ssh_compsci(){
     ssh -i ${HOME}/.ssh/id_rsa_compsci.pub gdunn@compsci
 }
 
+ssh_compsci_port_fwd(){
+    user=$1
+    local=$2
+    remote=$3
+
+    ssh -i ${HOME}/.ssh/id_rsa_compsci -4 -L ${local}:localhost:${remote} ${user}@compsci
+}
+
+
 ssh_gal(){
     ssh ubuntu@${GALAXY_IP}
 }
@@ -298,11 +311,7 @@ alias zedit="edit $GITREPOS/zshrc"
 
 
 
-## DJANGO STUFF
-export DJANGO_DATA_DIR="/Users/GusDunn/src/git/project-repos/prod/data"
-export DJANGO_TOOLS_DIR="/Users/GusDunn/src/git/project-repos/prod/tools"
-export PYTHONPATH=$PROJREPOS/prod/cogen
-export DJANGO_SETTINGS_MODULE=cogen.settings
+
 
 
 #### SSHFS
@@ -344,19 +353,19 @@ bindkey "^[[1;9D" backward-word
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/GusDunn/.anaconda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('${HOME}/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/Users/GusDunn/.anaconda/etc/profile.d/conda.sh" ]; then
-        . "/Users/GusDunn/.anaconda/etc/profile.d/conda.sh"
+    if [ -f "${HOME}/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "${HOME}/anaconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/Users/GusDunn/.anaconda/bin:$PATH"
+        export PATH="${HOME}/anaconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-ca main
+
 
 
 ### THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
