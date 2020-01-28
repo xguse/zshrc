@@ -2,7 +2,7 @@ ZGEN_GIT="https://github.com/tarjoilija/zgen.git"
 ZSHRC_GIT="https://github.com/xguse/zshrc.git"
 
 
-ZGEN_DIR=${HOME}/.zgen/zgen.zsh
+ZGEN_DIR=${HOME}/.zgen
 ZSHRC_BASE_DIR=${HOME}/.zshrc_base
 
 
