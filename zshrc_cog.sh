@@ -40,7 +40,8 @@ if ! zgen saved; then
     zgen load zsh-users/zsh-syntax-highlighting
 
     # Docker
-
+    zgen oh-my-zsh plugins/docker
+    zgen oh-my-zsh plugins/docker-compose
 
     # python
     zgen oh-my-zsh plugins/pip
@@ -99,7 +100,7 @@ source $ZSHRC_BASE/functions_git.sh
 # export PATH="${HOME}/bin:${HOME}/.local/bin:${HOME}/.luarocks/bin:${HOME}/.local/lmod/lmod/5.9.3/libexec:${HOME}/.cabal/bin:${PATH}:/usr/local/bin:${HOME}/.gem/ruby/2.4.0/bin"
 
 
-export PATH="$HOME/.poetry/bin:${HOME}/.local/bin:${HOME}/.node_modules/bin:${HOME}/.cabal/bin:/usr/local/bin:${HOME}/.gem/ruby/2.5.0/bin:${HOME}/.rvm/bin:/Applications/Postgres.app/Contents/Versions/latest/bin:${VIRGIN_PATH}"
+export PATH="$HOME/.poetry/bin:${HOME}/.node_modules/bin:${HOME}/.cabal/bin:/usr/local/bin:${HOME}/.gem/ruby/2.5.0/bin:${HOME}/.rvm/bin:/Applications/Postgres.app/Contents/Versions/latest/bin:${HOME}/.local/bin:${VIRGIN_PATH}"
 
 
 # Aliases
@@ -288,7 +289,10 @@ ssh_pipeline_analytics_jupyter(){
 
 ssh_cluster_jump(){
     user=$1
-    ssh -4 -L 8000:localhost:8001 ${user}@$GALAXY_IP -t ssh -4 -L 8001:localhost:8889 ${user}@w1
+    worker=$2
+    more_options=$3
+
+    ssh -4 -L 8000:localhost:8001 ${user}@$GALAXY_IP -t ssh -4 -L 8001:localhost:8889 ${user}@${worker} ${more_options}
 }
 
 
@@ -301,6 +305,7 @@ alias pinggoogle="ping -c 5 google.com"
 
 #### git flow stuff
 alias gf="git flow"
+alias gff="gf feature"
 
 
 
@@ -308,7 +313,8 @@ alias gf="git flow"
 alias zedit="edit $GITREPOS/zshrc"
 
 
-
+#### tree
+alias tree="tree -Cha"
 
 
 

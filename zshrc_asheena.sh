@@ -86,3 +86,40 @@ source $ZSHRC_BASE/functions_git.sh
 ####### My config stuff #############################################
 #####################################################################
 reset-conda-none
+
+
+# Aliases
+alias ls="ls -Gh"
+
+
+## AWS stuff
+export AWS_DIR="${HOME}/.aws"
+
+export GALAXY_IP="54.163.140.135"
+
+
+ssh_compsci_port_fwd(){
+    user=$1
+    local=$2
+    remote=$3
+
+    ssh -4 -L ${local}:localhost:${remote} ${user}@compsci
+}
+
+
+
+
+#### git flow stuff
+alias gf="git flow"
+alias gff="gf feature"
+
+
+
+#### OVERRIDE editing zshrc
+alias zedit="edit $GITREPOS/zshrc"
+
+
+#### tree
+alias tree="tree -Cha"
+
+
