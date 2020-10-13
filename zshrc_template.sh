@@ -9,10 +9,14 @@ fpath+=~/.zfunc
 ## homebrew
 export ZSH_DISABLE_COMPFIX=true
 
+# Set anaconda install location
+ANACONDA=${HOME}/anaconda3
+alias ca="conda activate"
+alias dact="conda deactivate"
+
 #####################################################################
 ####### Set up zsh plugins and theme ################################
 #####################################################################
-ANACONDA=$HOME/.anaconda
 
 ZGEN=${HOME}/.zgen/zgen.zsh
 ZSHRC_BASE=${HOME}/.zshrc_base
@@ -85,4 +89,18 @@ source $ZSHRC_BASE/functions_git.sh
 #####################################################################
 ####### My config stuff #############################################
 #####################################################################
-reset-conda-none
+
+# Aliases
+alias ls="ls -Gh"
+
+REPER_VPN_CERT="pin-sha256:tV65hdhtSuluu7GwbtL+yMDTp9hqZLSnxCRJE7M37JY="
+
+vpn-reper () {
+	sudo openconnect --servercert ${REPER_VPN_CERT} -u gdunn vpn.cogentherapeutics.com
+}
+
+vpn-reper-nocert () {
+	sudo openconnect -u gdunn vpn.cogentherapeutics.com
+}
+
+
