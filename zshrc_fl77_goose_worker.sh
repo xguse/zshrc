@@ -133,6 +133,13 @@ bump-version-and-history(){
 
 #### Anaconda stuff
 
+jup_pacbio (){
+	port=$1
+	cd ~/repos/pacbio_tools
+	inv jupyter-lab --aws --port $port
+	
+}
+
 # # # Looks like this is not used post conda 4.4
 # # add $ANACONDA/bin at the END of PATH
 # export PATH="${PATH}:${ANACONDA}/bin"
@@ -173,23 +180,22 @@ zstyle ':completion::complete:*' use-cache 1
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='micro'
+    export EDITOR='micro'
 else
-  export EDITOR='code'
+    export EDITOR='micro'
 fi
 
 # alias atom=atom-beta
 alias edit=$EDITOR
 
-export VISUAL=code
+export VISUAL=micro
 
 
 
 ### Specific commonly used data locations
 export GITREPOS="${HOME}/repos"
 export COOKIECUTTERS="${GITREPOS}/cookiecutters"
-export PROJREPOS=$GITREPOS/project-repos
-export MYPEMS="${HOME}/.ssh/pems"
+export PROJREPOS=$GITREPOS/projects
 
 
 #### alias to use sudo with my environment
@@ -223,6 +229,70 @@ goose_worker(){
     fi
 }
 
+umass-to-s3(){
+    set -x
+
+    new_dir_name=$1
+    ftp_dir=$2
+
+    TMP_LOC=/tmp/${new_dir_name}
+    S3_LOC=s3://fl77inc-data/staging/${new_dir_name}
+
+    mkdir -p ${TMP_LOC}
+
+    # Yes I know its bad form to store this stuff here, but... LOOK AT THE VALUES! 
+    # If they are NOT already compromised, they WILL be soon anyway.
+    FTP_USER=umw_deepseq
+    FTP_PW=deepseq
+    FTP_SERVER=ftp.umassrc.org
+
+    # Download all files
+    wget \
+        --mirror \
+        --ftp-user=${FTP_USER} \
+        --ftp-password=${FTP_PW} \
+        --continue \
+        --cut-dirs 2 \
+        --progress bar \
+        -nH \
+        --directory-prefix ${TMP_LOC} \
+        ftp://${FTP_SERVER}/umw_FL77/${ftp_dir}/
+        # --report-speed bytes \
+        # --chunk-size 100M \
+        # --max-threads 30 \
+
+    # Sync to s3
+    aws s3 sync ${TMP_LOC} ${S3_LOC}
+
+    # Remind about deletion
+    echo "[ !!! ALERT  !!! ]: remember that you must delete ${TMP_LOC} or restart the EC2 to clear the drive space!!!"
+
+}
+
+genewiz-to-s3(){
+    set -x
+
+    new_dir_name=$1
+    ftp_dir=$2
+
+    TMP_LOC=/tmp/${new_dir_name}
+    S3_LOC=s3://fl77inc-data/staging/${new_dir_name}
+
+    # Yes I know its bad form to store this stuff here I am sorry.
+    FTP_USER=jpribis_flagshippioneering
+    FTP_PW=gx4XVb4MT3sLp0rG6Opo
+    FTP_SERVER=sftp.genewiz.com
+
+    # Download all files
+    sftp -ra ${FTP_USER}@${FTP_SERVER}:/genewiz-us-ngs-sftp/jpribis_flagshippioneering/${ftp_dir} /tmp
+
+    # Sync to s3
+    aws s3 sync ${TMP_LOC} ${S3_LOC}
+
+    # Remind about deletion
+    echo "[ !!! ALERT  !!! ]: remember that you must delete ${TMP_LOC} or restart the EC2 to clear the drive space!!!"
+
+}
 
 #### Ping Google
 alias pinggoogle="ping -c 5 google.com"
