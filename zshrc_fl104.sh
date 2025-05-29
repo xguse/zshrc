@@ -17,7 +17,7 @@ alias dact="conda deactivate"
 # Begin ZGEN config
 ZGEN=${HOME}/.zgen/zgen.zsh
 ZSHRC_BASE=${HOME}/.zshrc_base
-ZSHRC=${ZSHRC_BASE}/zshrc_fl77.sh
+ZSHRC=${ZSHRC_BASE}/zshrc_fl104.sh
 
 # Set name of the theme to load.
 #ZSH_THEME="spaceship" #"sporty_256" #"kphoen" #"candy" #"agnoster" "steeef" #"candy" #"agnoster"
@@ -205,9 +205,9 @@ alias time_stamp="date +'%Y-%m-%dT%H.%M.%S'"
 ## AWS stuff
 export AWS_DIR="${HOME}/.aws"
 
-# export PEM_FL77_WDUNN=~/.ssh/fl77_wdunn.pem
+export EC2_PEM=~/.ssh/adunn_250529.pem
 
-# export EC2_ID_GOOSE_WORKER="i-0aa747c0063157261"
+export EC2_ID_GOOSE_WORKER="i-0248376befd423885"
 
 goose_worker(){
     action=$1
